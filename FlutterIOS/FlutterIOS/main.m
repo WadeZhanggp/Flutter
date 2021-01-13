@@ -2,15 +2,18 @@
 //  main.m
 //  FlutterIOS
 //
-//  Created by zhangguangpeng on 2021/1/12.
+//  Created by zhangguangpeng on 2021/1/13.
 //  Copyright © 2021 zhangguangpeng. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+#import <UIKit/UIKit.h>
+#import "AppDelegate.h"
 
-int main(int argc, const char * argv[]) {
+int main(int argc, char * argv[]) {
+    NSString * appDelegateClassName;
     @autoreleasepool {
         // Setup code that might create autoreleased objects goes here.
+        appDelegateClassName = NSStringFromClass([AppDelegate class]);
     }
-    return NSApplicationMain(argc, argv);
+    return UIApplicationMain(argc, argv, nil, appDelegateClassName);
 }
