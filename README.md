@@ -6,6 +6,7 @@
 
 ## 2、iOS项目中引入flutter
 ### iOS项目中先创建Podfile文件
+### Podfile进行如下配置
 
 platform:'ios','10.0'
 
@@ -21,4 +22,10 @@ pod 'MJRefresh', '~> 3.5.0'
 
 
 end
+
+### 执行 pod install
+
+### 3、Android项目中引用flutter
+
+
 

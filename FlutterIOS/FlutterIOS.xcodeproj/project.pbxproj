@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39D3162725B199DE00BC49D5 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D3162525B199DE00BC49D5 /* HomeViewController.m */; };
+		39D3162825B199DE00BC49D5 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 39D3162625B199DE00BC49D5 /* HomeViewController.xib */; };
 		39E2B65625AE7EA300D7D551 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2B65525AE7EA300D7D551 /* AppDelegate.m */; };
-		39E2B65925AE7EA300D7D551 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2B65825AE7EA300D7D551 /* SceneDelegate.m */; };
 		39E2B65C25AE7EA300D7D551 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39E2B65B25AE7EA300D7D551 /* ViewController.m */; };
 		39E2B65F25AE7EA300D7D551 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39E2B65D25AE7EA300D7D551 /* Main.storyboard */; };
 		39E2B66125AE7EA600D7D551 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39E2B66025AE7EA600D7D551 /* Assets.xcassets */; };
@@ -39,11 +40,12 @@
 /* Begin PBXFileReference section */
 		22534729CD8267311A84C1CC /* libPods-FlutterIOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlutterIOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		378AA9A4F76B6F0F25A889CE /* Pods-FlutterIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlutterIOS.release.xcconfig"; path = "Target Support Files/Pods-FlutterIOS/Pods-FlutterIOS.release.xcconfig"; sourceTree = "<group>"; };
+		39D3162425B199DE00BC49D5 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		39D3162525B199DE00BC49D5 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		39D3162625B199DE00BC49D5 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		39E2B65125AE7EA300D7D551 /* FlutterIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlutterIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E2B65425AE7EA300D7D551 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		39E2B65525AE7EA300D7D551 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		39E2B65725AE7EA300D7D551 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
-		39E2B65825AE7EA300D7D551 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
 		39E2B65A25AE7EA300D7D551 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		39E2B65B25AE7EA300D7D551 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		39E2B65E25AE7EA300D7D551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -113,8 +115,9 @@
 			children = (
 				39E2B65425AE7EA300D7D551 /* AppDelegate.h */,
 				39E2B65525AE7EA300D7D551 /* AppDelegate.m */,
-				39E2B65725AE7EA300D7D551 /* SceneDelegate.h */,
-				39E2B65825AE7EA300D7D551 /* SceneDelegate.m */,
+				39D3162425B199DE00BC49D5 /* HomeViewController.h */,
+				39D3162525B199DE00BC49D5 /* HomeViewController.m */,
+				39D3162625B199DE00BC49D5 /* HomeViewController.xib */,
 				39E2B65A25AE7EA300D7D551 /* ViewController.h */,
 				39E2B65B25AE7EA300D7D551 /* ViewController.m */,
 				39E2B65D25AE7EA300D7D551 /* Main.storyboard */,
@@ -169,7 +172,7 @@
 			buildConfigurationList = 39E2B68025AE7EA700D7D551 /* Build configuration list for PBXNativeTarget "FlutterIOS" */;
 			buildPhases = (
 				33BC5ACB1BDBCA933DB29367 /* [CP] Check Pods Manifest.lock */,
-				DD1C537EBB2ACAF12EDB20E6 /* [CP-User] Run Flutter Build Script */,
+				F88B1D561C67BD8CFFF49504 /* [CP-User] Run Flutter Build flutter_module Script */,
 				39E2B64D25AE7EA300D7D551 /* Sources */,
 				39E2B64E25AE7EA300D7D551 /* Frameworks */,
 				39E2B64F25AE7EA300D7D551 /* Resources */,
@@ -271,6 +274,7 @@
 				39E2B66425AE7EA600D7D551 /* LaunchScreen.storyboard in Resources */,
 				39E2B66125AE7EA600D7D551 /* Assets.xcassets in Resources */,
 				39E2B65F25AE7EA300D7D551 /* Main.storyboard in Resources */,
+				39D3162825B199DE00BC49D5 /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,7 +351,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DD1C537EBB2ACAF12EDB20E6 /* [CP-User] Run Flutter Build Script */ = {
+		F88B1D561C67BD8CFFF49504 /* [CP-User] Run Flutter Build flutter_module Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -358,7 +362,7 @@
 				"${SRCROOT}/../flutter_module/.ios/Flutter/engine/Flutter.framework/Flutter",
 				"${SRCROOT}/../flutter_module/.ios/Flutter/flutter_export_environment.sh",
 			);
-			name = "[CP-User] Run Flutter Build Script";
+			name = "[CP-User] Run Flutter Build flutter_module Script";
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "set -e\nset -u\nsource \"${SRCROOT}/../flutter_module/.ios/Flutter/flutter_export_environment.sh\"\n\"$FLUTTER_ROOT\"/packages/flutter_tools/bin/xcode_backend.sh build";
@@ -373,7 +377,7 @@
 				39E2B65C25AE7EA300D7D551 /* ViewController.m in Sources */,
 				39E2B65625AE7EA300D7D551 /* AppDelegate.m in Sources */,
 				39E2B66725AE7EA600D7D551 /* main.m in Sources */,
-				39E2B65925AE7EA300D7D551 /* SceneDelegate.m in Sources */,
+				39D3162725B199DE00BC49D5 /* HomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

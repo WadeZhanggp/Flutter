@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_module/page/home_page.dart';
-import 'package:flutter_module/page/login_page.dart';
-
+import 'package:flutteropay/page/home_page.dart';
+import 'package:flutteropay/page/login_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(title: 'test'),
+      home: LoginPage(),
       routes: {
         "home_page":(context)=> HomePage(),
       },
