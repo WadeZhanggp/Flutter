@@ -28,6 +28,12 @@
   "dependencies": {
     "Flutter": [
 
+    ],
+    "connectivity": [
+
+    ],
+    "path_provider": [
+
     ]
   }
 }

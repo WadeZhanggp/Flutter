@@ -1,34 +1,52 @@
 PODS:
+  - connectivity (0.0.1):
+    - Flutter
+    - Reachability
   - Flutter (1.0.0)
   - flutter_module (0.0.1):
     - Flutter
   - FlutterPluginRegistrant (0.0.1):
+    - connectivity
     - Flutter
+    - path_provider
   - MJRefresh (3.5.0)
+  - path_provider (0.0.1):
+    - Flutter
+  - Reachability (3.2)
 
 DEPENDENCIES:
+  - connectivity (from `../flutter_module/.ios/Flutter/.symlinks/connectivity/ios`)
   - Flutter (from `../flutter_module/.ios/Flutter/engine`)
   - flutter_module (from `../flutter_module/.ios/Flutter`)
   - FlutterPluginRegistrant (from `../flutter_module/.ios/Flutter/FlutterPluginRegistrant`)
   - MJRefresh (~> 3.5.0)
+  - path_provider (from `../flutter_module/.ios/Flutter/.symlinks/path_provider/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - MJRefresh
+    - Reachability
 
 EXTERNAL SOURCES:
+  connectivity:
+    :path: "../flutter_module/.ios/Flutter/.symlinks/connectivity/ios"
   Flutter:
     :path: "../flutter_module/.ios/Flutter/engine"
   flutter_module:
     :path: "../flutter_module/.ios/Flutter"
   FlutterPluginRegistrant:
     :path: "../flutter_module/.ios/Flutter/FlutterPluginRegistrant"
+  path_provider:
+    :path: "../flutter_module/.ios/Flutter/.symlinks/path_provider/ios"
 
 SPEC CHECKSUMS:
+  connectivity: c4130b2985d4ef6fd26f9702e886bd5260681467
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_module: d1e1ff44505640bd9aa37f23f63380c646272be4
-  FlutterPluginRegistrant: 2afd5ea46d3a949472c9b7da6462d8fbf7d8b16e
+  FlutterPluginRegistrant: 471bf0f7c728f2be524f3b8d51c1f94f43c0d8fa
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
 
 PODFILE CHECKSUM: 7c72e9dc92d6e10ffe2f182c1f67bcca528e0e5d
 

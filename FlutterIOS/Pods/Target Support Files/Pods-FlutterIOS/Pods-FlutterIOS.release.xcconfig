@@ -1,11 +1,11 @@
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/../../flutter_module/.ios/Flutter" "${PODS_ROOT}/../../flutter_module/.ios/Flutter/engine"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FlutterPluginRegistrant" "${PODS_ROOT}/Headers/Public/MJRefresh"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/FlutterPluginRegistrant" "${PODS_ROOT}/Headers/Public/MJRefresh" "${PODS_ROOT}/Headers/Public/Reachability" "${PODS_ROOT}/Headers/Public/connectivity" "${PODS_ROOT}/Headers/Public/path_provider"
 LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/FlutterPluginRegistrant" "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh"
-OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_ROOT}/Headers/Public/FlutterPluginRegistrant/FlutterPluginRegistrant.modulemap" -isystem "${PODS_ROOT}/Headers/Public" -iframework "${PODS_ROOT}/../../flutter_module/.ios/Flutter/engine" -iframework "${PODS_ROOT}/../../flutter_module/.ios/Flutter"
-OTHER_LDFLAGS = $(inherited) -ObjC -l"FlutterPluginRegistrant" -l"MJRefresh" -framework "App" -framework "Flutter"
-OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/FlutterPluginRegistrant/FlutterPluginRegistrant.modulemap"
+LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/FlutterPluginRegistrant" "${PODS_CONFIGURATION_BUILD_DIR}/MJRefresh" "${PODS_CONFIGURATION_BUILD_DIR}/Reachability" "${PODS_CONFIGURATION_BUILD_DIR}/connectivity" "${PODS_CONFIGURATION_BUILD_DIR}/path_provider"
+OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_ROOT}/Headers/Public/FlutterPluginRegistrant/FlutterPluginRegistrant.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/connectivity/connectivity.modulemap" -fmodule-map-file="${PODS_ROOT}/Headers/Public/path_provider/path_provider.modulemap" -isystem "${PODS_ROOT}/Headers/Public" -iframework "${PODS_ROOT}/../../flutter_module/.ios/Flutter/engine" -iframework "${PODS_ROOT}/../../flutter_module/.ios/Flutter"
+OTHER_LDFLAGS = $(inherited) -ObjC -l"FlutterPluginRegistrant" -l"MJRefresh" -l"Reachability" -l"connectivity" -l"path_provider" -framework "App" -framework "Flutter" -framework "SystemConfiguration"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/FlutterPluginRegistrant/FlutterPluginRegistrant.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/connectivity/connectivity.modulemap" -Xcc -fmodule-map-file="${PODS_ROOT}/Headers/Public/path_provider/path_provider.modulemap"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.

@@ -1,5 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_module/dio/http_dio.dart';
+import 'package:flutter_module/dio/http_error.dart';
+import 'package:flutter_module/dio/http_manager.dart';
+import 'package:flutter_module/utils/common_data.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key,this.title}) : super(key: key);
@@ -125,7 +132,36 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               child: FlatButton(
                 onPressed:(){
-                  Navigator.pushNamed(context, "home_page");
+                  //Navigator.pushNamed(context, "home_page");
+                  Map<String, dynamic> authParam = {
+                    "VERSION": "1101",
+                    "SOURCE": "5",
+                    "REQUEST_TIME": "2021-02-08 12:30",
+                    "LANG": 'zh',
+                  };
+
+                  Map<String, dynamic> dataParam = {
+                    "MOBILE_NO": "17682303503",
+                    "LOGIN_PWD": "zhang503",
+                    "AREA_CODE": "0086",
+                    "DEVICE_TYPE": 'iOS',
+                    "DEVICE_TOKEN": "1234567890"
+                  };
+
+                  Map<String, dynamic> requestParam = {
+                    "auth": authParam,
+                    "data": dataParam,
+                    "tran": "HLogin",
+                  };
+
+
+                  EasyLoading.showProgress(0.3, status: 'downloading...');
+                  var result = HttpDio.getInstance().post(CommonData.appUrl, params: requestParam);
+
+                  if(result != null){
+                    EasyLoading.dismiss();
+                  }
+
                 },
                 child: Text(
                     "登录",
@@ -142,7 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                 Expanded(
                   flex: 1,
                   child: FlatButton(
-                    onPressed:(){
+                    onPressed:() async {
+
 
                     },
                     padding: const EdgeInsets.only(left: 30, top: 40),

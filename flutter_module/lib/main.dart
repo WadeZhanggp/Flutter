@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "home_page":(context)=> HomePage(),
       },
+      builder: EasyLoading.init(),
     );
   }
 }
