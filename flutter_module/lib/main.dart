@@ -4,7 +4,29 @@ import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
 
 
-void main() => runApp(MyApp());
+//void main() => runApp(
+//    MyApp(),
+//);
+void main() {
+  runApp(MyApp());
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

@@ -168,15 +168,15 @@ class HttpManager {
     @required String tag,
   }) async {
     //检查网络是否连接
-    ConnectivityResult connectivityResult =
-    await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      if (errorCallback != null) {
-        errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
-      }
-      LogUtil.v("请求网络异常，请稍后重试！");
-      return;
-    }
+//    ConnectivityResult connectivityResult =
+//    await (Connectivity().checkConnectivity());
+//    if (connectivityResult == ConnectivityResult.none) {
+//      if (errorCallback != null) {
+//        errorCallback(HttpError(HttpError.NETWORK_ERROR, "网络异常，请稍后重试！"));
+//      }
+//      LogUtil.v("请求网络异常，请稍后重试！");
+//      return;
+//    }
 
     //设置默认值
     params = params ?? {};

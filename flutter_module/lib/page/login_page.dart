@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_module/dio/http_dio.dart';
 import 'package:flutter_module/dio/http_error.dart';
 import 'package:flutter_module/dio/http_manager.dart';
+import 'package:flutter_module/model/login_model.dart';
+import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/utils/common_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'dart:convert';
+
+import '../main.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -17,12 +22,14 @@ class LoginPage extends StatefulWidget {
 
 UnderlineInputBorder _underlineInputBorder = UnderlineInputBorder(
   borderSide: BorderSide(
-    color: Colors.red,
+    color: Colors.grey,
   ),
 );
 
 class _LoginPageState extends State<LoginPage> {
 
+  final phoneController = TextEditingController();
+  final passwdController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,13 +67,14 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                     margin: const EdgeInsets.only(left: 20,top: 60,right: 30),
                     child:  TextField(
+                      controller: phoneController,
                       autofocus: true,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
                       ),
                       decoration: InputDecoration(
-                        hintText: "请输入登录密码",
+                        hintText: "请输入电话号码",
                         hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey),//设置提示文字样式
                         border: _underlineInputBorder,
                         focusedBorder: _underlineInputBorder,
@@ -98,13 +106,14 @@ class _LoginPageState extends State<LoginPage> {
                     height: 20,
                     margin: const EdgeInsets.only(left: 20,top: 60,right: 30),
                     child:  TextField(
+                      controller: passwdController,
                       autofocus: true,
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
                       ),
                       decoration: InputDecoration(
-                        hintText: "请输入电话号码",
+                        hintText: "请输入登录密码",
                         hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey),//设置提示文字样式
                         border: _underlineInputBorder,
                         focusedBorder: _underlineInputBorder,
@@ -131,18 +140,29 @@ class _LoginPageState extends State<LoginPage> {
               ),
               alignment: Alignment.center,
               child: FlatButton(
-                onPressed:(){
-                  //Navigator.pushNamed(context, "home_page");
+                onPressed:() async {
+
+                  await EasyLoading.show(
+                    //status: 'loading...',
+                    maskType: EasyLoadingMaskType.black,
+                  );
+
+                  String phoneNum = phoneController.text;
+                  String passwd = passwdController.text;
+
+                  //创建时间对象，获取当前时间
+                  DateTime now = new DateTime.now();
+
                   Map<String, dynamic> authParam = {
                     "VERSION": "1101",
                     "SOURCE": "5",
-                    "REQUEST_TIME": "2021-02-08 12:30",
+                    "REQUEST_TIME": now.toString(),
                     "LANG": 'zh',
                   };
 
                   Map<String, dynamic> dataParam = {
-                    "MOBILE_NO": "17682303503",
-                    "LOGIN_PWD": "zhang503",
+                    "MOBILE_NO": phoneNum,
+                    "LOGIN_PWD": passwd,
                     "AREA_CODE": "0086",
                     "DEVICE_TYPE": 'iOS',
                     "DEVICE_TOKEN": "1234567890"
@@ -155,12 +175,34 @@ class _LoginPageState extends State<LoginPage> {
                   };
 
 
-                  EasyLoading.showProgress(0.3, status: 'downloading...');
-                  var result = HttpDio.getInstance().post(CommonData.appUrl, params: requestParam);
+                  HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) {
+                    print("接口返回的数据是:${value}");
+                    Map loginMap = json.decode(value);
+                    var login = new LoginModel.fromJson(loginMap);
+                    if(login.rSPCOD == '00000'){
+                      print('请求成功');
 
-                  if(result != null){
+//                      Navigator.of(context)
+//                          .pushNamedAndRemoveUntil(
+//                      "home_page",
+//                      ModalRoute.withName('/'),//清除旧栈需要保留的栈 不清除就不写这句
+//                      arguments:null//传值
+//                    );
+
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        "home_page", (route) => false,//true保留跳转的当前栈   false 不保留
+                      );
+
+                    }
+                  }).whenComplete(() {
+                    print("异步任务处理完成");
                     EasyLoading.dismiss();
-                  }
+                  }).catchError((){
+                    EasyLoading.dismiss();
+                  });
+
+
 
                 },
                 child: Text(
@@ -179,7 +221,6 @@ class _LoginPageState extends State<LoginPage> {
                   flex: 1,
                   child: FlatButton(
                     onPressed:() async {
-
 
                     },
                     padding: const EdgeInsets.only(left: 30, top: 40),
