@@ -141,14 +141,23 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               child: FlatButton(
                 onPressed:() async {
+                  String phoneNum = phoneController.text;
+                  String passwd = passwdController.text;
+
+                  if (phoneNum.isEmpty){
+                    EasyLoading.showToast("请输入电话号码");
+                    return;
+                  }
+
+                  if (passwd.isEmpty) {
+                    EasyLoading.showToast("请输入登录密码");
+                    return;
+                  }
 
                   await EasyLoading.show(
                     //status: 'loading...',
                     maskType: EasyLoadingMaskType.black,
                   );
-
-                  String phoneNum = phoneController.text;
-                  String passwd = passwdController.text;
 
                   //创建时间对象，获取当前时间
                   DateTime now = new DateTime.now();
@@ -181,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                     var login = new LoginModel.fromJson(loginMap);
                     if(login.rSPCOD == '00000'){
                       print('请求成功');
+                      EasyLoading.showToast("登录成功");
 
 //                      Navigator.of(context)
 //                          .pushNamedAndRemoveUntil(
