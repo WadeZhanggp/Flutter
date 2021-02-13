@@ -3,6 +3,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
 import 'package:flutter_module/page/recharge_record_page.dart';
+import 'package:flutter_module/page/supplier_page.dart';
+import 'package:flutter_module/utils/sharepreferences_utils.dart';
 
 
 //void main() => runApp(
@@ -39,10 +41,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(title: 'test'),
+      home: SharePreferencesUtils.readFromLocalMap("token") != null ? HomePage() : LoginPage(),
       routes: {
         "home_page":(context)=> HomePage(),
-        "recharge_record_page":(context) => RechargeRecoedPage(),
+        "recharge_record_page":(context) => RechargeRecordPage(),
+        "supplier_page":(context) => SupplierPage(),
       },
       builder: EasyLoading.init(),
     );

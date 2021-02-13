@@ -5,6 +5,7 @@ import 'package:flutter_module/dio/http_error.dart';
 import 'package:flutter_module/dio/http_manager.dart';
 import 'package:flutter_module/model/login_model.dart';
 import 'package:flutter_module/page/home_page.dart';
+import 'package:flutter_module/utils/sharepreferences_utils.dart';
 import 'package:flutter_module/utils/common_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -155,7 +156,6 @@ class _LoginPageState extends State<LoginPage> {
                   }
 
                   await EasyLoading.show(
-                    //status: 'loading...',
                     maskType: EasyLoadingMaskType.black,
                   );
 
@@ -189,6 +189,7 @@ class _LoginPageState extends State<LoginPage> {
                     Map loginMap = json.decode(value);
                     var login = new LoginModel.fromJson(loginMap);
                     if(login.rSPCOD == '00000'){
+                      SharePreferencesUtils.saveToLocalMap("token", login.dATA.sESSIONID);
                       print('请求成功');
                       EasyLoading.showToast("登录成功");
 

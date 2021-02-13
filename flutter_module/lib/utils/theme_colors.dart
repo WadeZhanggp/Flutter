@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ThemeColors {
 
-  static Color colorTheme = Color.fromRGBO(222, 66, 165, 1);
+  static Color colorTheme = Color.fromRGBO(20, 146, 219, 1);
 
   static Color colorSelectBlue = Color.fromRGBO(0, 71, 178, 1);
 
