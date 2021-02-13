@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
+import 'package:flutter_module/page/recharge_record_page.dart';
 
 
 //void main() => runApp(
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
       home: LoginPage(title: 'test'),
       routes: {
         "home_page":(context)=> HomePage(),
+        "recharge_record_page":(context) => RechargeRecoedPage(),
       },
       builder: EasyLoading.init(),
     );
