@@ -280,7 +280,8 @@ class _HomePageState extends State<HomePage> {
                         print("接口返回的数据是:${value}");
                         //Map loginMap = json.decode(value);
                         //var login = new LoginModel.fromJson(loginMap);
-
+                        //bill_details_page
+                        Navigator.pushNamed(context, "bill_details_page");
                       }).whenComplete(() {
                         print("异步任务处理完成");
                         EasyLoading.dismiss();

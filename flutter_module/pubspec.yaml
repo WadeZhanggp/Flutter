@@ -73,6 +73,7 @@ flutter:
     - images/img_home_left.png
     - images/img_home_logo.png
     - images/img_home_right.png
+    - images/img_home_back.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_module/page/bill_details_page.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
 import 'package:flutter_module/page/recharge_record_page.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         "home_page":(context)=> HomePage(),
         "recharge_record_page":(context) => RechargeRecordPage(),
         "supplier_page":(context) => SupplierPage(),
+        "bill_details_page":(context) => BillDetailsPage(),
       },
       builder: EasyLoading.init(),
     );
