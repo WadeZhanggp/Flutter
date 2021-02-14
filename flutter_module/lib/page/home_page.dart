@@ -6,6 +6,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/dio/http_dio.dart';
 import 'package:flutter_module/model/supplier_model.dart';
 import 'package:flutter_module/utils/common_data.dart';
+import 'package:flutter_module/utils/common_util.dart';
+import 'package:flutter_module/utils/sharepreferences_utils.dart';
 import 'package:flutter_module/utils/theme_colors.dart';
 
 class HomePage extends StatefulWidget {
@@ -244,30 +246,39 @@ class _HomePageState extends State<HomePage> {
                       );
                       //创建时间对象，获取当前时间
                       DateTime now = new DateTime.now();
+                      String meterNo = meterNoController.text;
+                      var token = await SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
 
-                      Map<String, dynamic> authParam = {
-                        "VERSION": "1101",
+                      Map<String, String> authParam = {
+                        "SESSION_ID": token,
                         "SOURCE": "5",
                         "REQUEST_TIME": now.toString(),
                         "LANG": 'zh',
                       };
 
-                      Map<String, dynamic> dataParam = {
-                        "AREA_CODE": "0086",
-                        "DEVICE_TYPE": 'iOS',
-                        "DEVICE_TOKEN": "1234567890"
+                      Map<String, String> dataParam = {
+                        "ENEL_ID": supplerModel.ELEN_ID,
+                        "METER_NO": meterNo,
+                      };
+
+                      //验签加密
+                      String signature = await CommonUtil.signatureString(authParam, dataParam);
+
+                      Map<String, String> tailParam = {
+                        "SIGN_TYPE":"1",
+                        "SIGNATURE":signature
                       };
 
                       Map<String, dynamic> requestParam = {
+                        "TAIL": tailParam,
                         "auth": authParam,
                         "data": dataParam,
                         "tran": "HQryMeter",
                       };
 
-
                       HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) {
                         print("接口返回的数据是:${value}");
-                        Map loginMap = json.decode(value);
+                        //Map loginMap = json.decode(value);
                         //var login = new LoginModel.fromJson(loginMap);
 
                       }).whenComplete(() {

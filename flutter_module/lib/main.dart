@@ -4,6 +4,7 @@ import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
 import 'package:flutter_module/page/recharge_record_page.dart';
 import 'package:flutter_module/page/supplier_page.dart';
+import 'package:flutter_module/utils/common_util.dart';
 import 'package:flutter_module/utils/sharepreferences_utils.dart';
 
 
@@ -15,7 +16,9 @@ void main() {
   configLoading();
 }
 
-void configLoading() {
+var token;
+
+Future<void> configLoading() async {
   EasyLoading.instance
     ..displayDuration = const Duration(milliseconds: 2000)
     ..indicatorType = EasyLoadingIndicatorType.fadingCircle
@@ -29,6 +32,9 @@ void configLoading() {
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;
+
+    token = await SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
+    print("token " + token);
 }
 
 class MyApp extends StatelessWidget {
@@ -41,7 +47,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SharePreferencesUtils.readFromLocalMap("token") != null ? HomePage() : LoginPage(),
+      home: (
+          token.toString() == null ? HomePage() : LoginPage()
+      ),
       routes: {
         "home_page":(context)=> HomePage(),
         "recharge_record_page":(context) => RechargeRecordPage(),

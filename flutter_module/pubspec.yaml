@@ -36,6 +36,7 @@ dependencies:
   flutter_easyloading: ^2.2.2
   pull_to_refresh: ^1.6.3
   shared_preferences: ^0.5.12+4
+  crypto: ^2.1.5
 
 
   # The following adds the Cupertino Icons font to your application.
