@@ -37,6 +37,7 @@ dependencies:
   pull_to_refresh: ^1.6.3
   shared_preferences: ^0.5.12+4
   crypto: ^2.1.5
+  rflutter_alert: ^1.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

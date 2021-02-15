@@ -1,15 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/dio/http_dio.dart';
+import 'package:flutter_module/model/create_order_model.dart';
+import 'package:flutter_module/model/pre_alipay_model.dart';
+import 'package:flutter_module/model/query_meter_model.dart';
 import 'package:flutter_module/model/supplier_model.dart';
 import 'package:flutter_module/utils/common_data.dart';
 import 'package:flutter_module/utils/common_util.dart';
 import 'package:flutter_module/utils/sharepreferences_utils.dart';
 import 'package:flutter_module/utils/theme_colors.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class BillDetailsPage extends StatefulWidget {
-  BillDetailsPage({Key key}) : super(key: key);
 
   @override
   _BillDetailsPage createState() => _BillDetailsPage(
@@ -25,11 +30,19 @@ UnderlineInputBorder _underlineInputBorder = UnderlineInputBorder(
 
 class _BillDetailsPage extends State<BillDetailsPage> {
 
-  SupplierModel supplerModel;
+
   final amountController = TextEditingController();
+  var createOreder = CreateOrderModel();
+
+
 
   @override
   Widget build(BuildContext context) {
+    /* 接收参数 */
+    final QueryMeterModel queryMeter = ModalRoute.of(context).settings.arguments;
+    List<String> infoNameList = ["表号","用户ID","姓名"];
+    List<String> infoValueList = [queryMeter.dATA.mETERNO, queryMeter.dATA.cUSTOMERID,queryMeter.dATA.uSERNAME];
+
     return Scaffold(
         body: SingleChildScrollView(
           child: Column(
@@ -143,7 +156,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                       child: ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemCount: 5,
+                        itemCount: 3,
                         itemBuilder: (BuildContext context, int index) {
                           return new Container(
                             constraints: BoxConstraints.expand(
@@ -157,7 +170,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                                   child: Container(
                                     margin: EdgeInsets.only(left: 18),
                                     child: Text(
-                                        "名称"
+                                        infoNameList[index]
                                     ),
                                   ),
                                 ),
@@ -166,7 +179,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                                   child: Container(
                                     margin: EdgeInsets.only(right: 18),
                                     child: Text(
-                                      "值",
+                                      infoValueList[index],
                                       textAlign: TextAlign.right,
                                     ),
                                   ),
@@ -230,14 +243,45 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                           String amount = amountController.text;
                           var token = await SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
 
+                          Map<String, String> authParam = {
+                            "SESSION_ID": token,
+                            "SOURCE": "5",
+                            "REQUEST_TIME": now.toString(),
+                            "LANG": 'zh',
+                          };
+
+                          Map<String, String> dataParam = {
+                            "ENEL_ID": queryMeter.ENEL_ID,
+                            "METER_NO": queryMeter.dATA.mETERNO,
+                            "AMT":amount
+                          };
+
+                          //验签加密
+                          String signature = await CommonUtil.signatureString(authParam, dataParam);
+
+                          Map<String, String> tailParam = {
+                            "SIGN_TYPE":"1",
+                            "SIGNATURE":signature
+                          };
+
+                          Map<String, dynamic> requestParam = {
+                            "TAIL": tailParam,
+                            "auth": authParam,
+                            "data": dataParam,
+                            "tran": "HCreateOrd",
+                          };
 
 
-                          HttpDio.getInstance().post(CommonData.appUrl, params: null).then((value) {
+
+                          HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) {
                             print("接口返回的数据是:${value}");
-                            //Map loginMap = json.decode(value);
-                            //var login = new LoginModel.fromJson(loginMap);
-                            //bill_details_page
-                            Navigator.pushNamed(context, "bill_details_page");
+                            Map createOrederMap = json.decode(value);
+                            createOreder = CreateOrderModel.fromJson(createOrederMap);
+                            if(queryMeter.rSPCOD == '00000'){
+                              _onAlertButtonsPressed(context,"确认支付","购电金额:" + createOreder.dATA.pOWERAMT + " 服务费:" + createOreder.dATA.fEEAMT);
+                            }
+
+
                           }).whenComplete(() {
                             print("异步任务处理完成");
                             EasyLoading.dismiss();
@@ -262,5 +306,81 @@ class _BillDetailsPage extends State<BillDetailsPage> {
           ),
         )
     );
+  }
+
+  // Alert with multiple and custom buttons
+  _onAlertButtonsPressed(context, String title, String desc) {
+    Alert(
+      context: context,
+      type: AlertType.none,
+      title: title,
+      desc: desc,
+      buttons: [
+        DialogButton(
+          child: Text(
+            "取消",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Colors.grey,
+        ),
+        DialogButton(
+          child: Text(
+            "确认",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () async{
+            await EasyLoading.show(
+              maskType: EasyLoadingMaskType.black,
+            );
+            //创建时间对象，获取当前时间
+            DateTime now = new DateTime.now();
+            var token = await SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
+
+            Map<String, String> authParam = {
+              "SESSION_ID": token,
+              "SOURCE": "5",
+              "REQUEST_TIME": now.toString(),
+              "LANG": 'zh',
+            };
+
+            Map<String, String> dataParam = {
+              "PRDORDNO": createOreder.dATA.pRDORDNO,
+            };
+
+            //验签加密
+            String signature = await CommonUtil.signatureString(authParam, dataParam);
+
+            Map<String, String> tailParam = {
+              "SIGN_TYPE":"1",
+              "SIGNATURE":signature
+            };
+
+            Map<String, dynamic> requestParam = {
+              "TAIL": tailParam,
+              "auth": authParam,
+              "data": dataParam,
+              "tran": "HPreAlipay",
+            };
+
+            HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) {
+              print("接口返回的数据是:${value}");
+              Map preAlipayMap = json.decode(value);
+              PreAlipayModel prealipayModel = PreAlipayModel.fromJson(preAlipayMap);
+              if(prealipayModel.rSPCOD == '00000'){
+                
+              }
+
+            }).whenComplete(() {
+              print("异步任务处理完成");
+              EasyLoading.dismiss();
+            }).catchError((){
+              EasyLoading.dismiss();
+            });
+          },
+          color: ThemeColors.colorTheme,
+        )
+      ],
+    ).show();
   }
 }

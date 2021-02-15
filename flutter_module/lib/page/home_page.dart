@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/dio/http_dio.dart';
+import 'package:flutter_module/model/query_meter_model.dart';
 import 'package:flutter_module/model/supplier_model.dart';
 import 'package:flutter_module/utils/common_data.dart';
 import 'package:flutter_module/utils/common_util.dart';
@@ -278,10 +279,14 @@ class _HomePageState extends State<HomePage> {
 
                       HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) {
                         print("接口返回的数据是:${value}");
-                        //Map loginMap = json.decode(value);
-                        //var login = new LoginModel.fromJson(loginMap);
-                        //bill_details_page
-                        Navigator.pushNamed(context, "bill_details_page");
+                        Map queryMeterMap = json.decode(value);
+                        var queryMeter = QueryMeterModel.fromJson(queryMeterMap);
+                        queryMeter.ENEL_ID = supplerModel.ELEN_ID;
+                        if(queryMeter.rSPCOD == '00000'){
+                          //带参数传参
+                          Navigator.pushNamed(context, "bill_details_page",arguments: queryMeter);
+                        }
+
                       }).whenComplete(() {
                         print("异步任务处理完成");
                         EasyLoading.dismiss();
