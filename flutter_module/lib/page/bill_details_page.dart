@@ -7,12 +7,12 @@ import 'package:flutter_module/dio/http_dio.dart';
 import 'package:flutter_module/model/create_order_model.dart';
 import 'package:flutter_module/model/pre_alipay_model.dart';
 import 'package:flutter_module/model/query_meter_model.dart';
-import 'package:flutter_module/model/supplier_model.dart';
 import 'package:flutter_module/utils/common_data.dart';
 import 'package:flutter_module/utils/common_util.dart';
 import 'package:flutter_module/utils/sharepreferences_utils.dart';
 import 'package:flutter_module/utils/theme_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:tobias/tobias.dart';
 
 class BillDetailsPage extends StatefulWidget {
 
@@ -330,6 +330,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           onPressed: () async{
+            Navigator.pop(context);
             await EasyLoading.show(
               maskType: EasyLoadingMaskType.black,
             );
@@ -363,12 +364,29 @@ class _BillDetailsPage extends State<BillDetailsPage> {
               "tran": "HPreAlipay",
             };
 
-            HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) {
+            HttpDio.getInstance().post(CommonData.appUrl, params: requestParam).then((value) async {
               print("接口返回的数据是:${value}");
               Map preAlipayMap = json.decode(value);
               PreAlipayModel prealipayModel = PreAlipayModel.fromJson(preAlipayMap);
               if(prealipayModel.rSPCOD == '00000'){
-                
+                final payInfo = prealipayModel.dATA.pAYINFO;
+                Map payResult;
+                try {
+                  print("The pay info is : " + payInfo);
+                  payResult = await aliPay(payInfo);
+                  print("--->$payResult");
+                  //支付成功
+                  if(payResult != null && payResult["resultStatus"] == "9000"){
+                    EasyLoading.showToast("支付成功");
+                    Navigator.pushNamed(context, "recharge_detail_page");
+                  }else{
+                    EasyLoading.showToast("支付失败");
+                  }
+                } on Exception catch (e) {
+                  payResult = {};
+                }
+
+
               }
 
             }).whenComplete(() {

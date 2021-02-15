@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/page/bill_details_page.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
+import 'package:flutter_module/page/recharge_detail_page.dart';
 import 'package:flutter_module/page/recharge_record_page.dart';
 import 'package:flutter_module/page/supplier_page.dart';
 import 'package:flutter_module/utils/common_util.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         "recharge_record_page":(context) => RechargeRecordPage(),
         "supplier_page":(context) => SupplierPage(),
         "bill_details_page":(context) => BillDetailsPage(),
+        "recharge_detail_page":(context) => RechargeDetailPage(),
       },
       builder: EasyLoading.init(),
     );
