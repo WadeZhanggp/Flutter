@@ -372,6 +372,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                 final payInfo = prealipayModel.dATA.pAYINFO;
                 Map payResult;
                 try {
+                  //测试
                   print("The pay info is : " + payInfo);
                   payResult = await aliPay(payInfo);
                   print("--->$payResult");
