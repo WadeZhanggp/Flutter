@@ -48,9 +48,9 @@ class HttpDio {
     //设置 content-type--可选
     //options.contentType = "application/x-www-form-urlencoded";
     //超时设置--可选
-    options.connectTimeout = 5000;
-    options.receiveTimeout = 5000;
-    options.sendTimeout = 5000;
+    options.connectTimeout = 15000;
+    options.receiveTimeout = 15000;
+    options.sendTimeout = 15000;
     //设置 baseurl--可选
     //options.baseUrl = "http://apis.juhe.cn";
     options.baseUrl = CommonData.appUrl;

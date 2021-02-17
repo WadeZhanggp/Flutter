@@ -34,11 +34,12 @@ dependencies:
   toast: ^0.1.5
   connectivity: ^2.0.2
   flutter_easyloading: ^2.2.2
-  pull_to_refresh: ^1.6.3
+  pull_to_refresh: 1.6.3
   shared_preferences: ^0.5.12+4
   crypto: ^2.1.5
   rflutter_alert: ^1.1.0
   tobias: ^1.7.1+3
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -76,6 +77,12 @@ flutter:
     - images/img_home_logo.png
     - images/img_home_right.png
     - images/img_home_back.png
+    - images/img_head_bg.png
+    - images/img_date.png
+    - images/img_head_bg.png
+    - images/img_payment.png
+    - images/img_pay_success.png
+    - images/img_pay_faild.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
