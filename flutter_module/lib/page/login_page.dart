@@ -234,11 +234,12 @@ class _LoginPageState extends State<LoginPage> {
                   flex: 1,
                   child: FlatButton(
                     onPressed:() async {
-
+                      Navigator.pushNamed(context, "register_page");
                     },
                     padding: const EdgeInsets.only(left: 30, top: 40),
                     child: Text(
                       "注册",
+                      //
                       style: TextStyle(
                         color: Colors.blue[800],
                         fontSize: 16.0,

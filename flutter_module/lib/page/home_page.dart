@@ -34,12 +34,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: Drawer(
-          child:Container(
-            alignment: Alignment.center,
-            child: Text('我是Drawer',style: TextStyle(fontSize: 30),),
-          ),
-        ),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -72,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                                 flex: 0,
                                 child: FlatButton(
                                   onPressed:() async {
-
+                                    Navigator.pushNamed(context, "my_page");
                                   },
                                   padding: const EdgeInsets.only(top: 40),
                                   child: Image(

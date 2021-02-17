@@ -4,8 +4,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_module/page/bill_details_page.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/page/login_page.dart';
+import 'package:flutter_module/page/my_page.dart';
 import 'package:flutter_module/page/recharge_detail_page.dart';
 import 'package:flutter_module/page/recharge_record_page.dart';
+import 'package:flutter_module/page/register_page.dart';
 import 'package:flutter_module/page/supplier_page.dart';
 import 'package:flutter_module/utils/common_util.dart';
 import 'package:flutter_module/utils/sharepreferences_utils.dart';
@@ -71,6 +73,9 @@ class MyApp extends StatelessWidget {
             "supplier_page":(context) => SupplierPage(),
             "bill_details_page":(context) => BillDetailsPage(),
             "recharge_detail_page":(context) => RechargeDetailPage(),
+            "my_page":(context) => MyPage(),
+            "login_page":(context) => LoginPage(),
+            "register_page":(context) => RegisterPage()
           },
           builder: EasyLoading.init(),
         )
