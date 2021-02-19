@@ -139,6 +139,7 @@ class _MyPageState extends State<MyPage> {
                     alignment: Alignment.center,
                     child: FlatButton(
                       onPressed:() async {
+                        SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
                         Navigator.pushNamedAndRemoveUntil(
                           context,
                           "login_page", (route) => false,//true保留跳转的当前栈   false 不保留

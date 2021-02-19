@@ -236,34 +236,12 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed:() async {
                       Navigator.pushNamed(context, "register_page");
                     },
-                    padding: const EdgeInsets.only(left: 30, top: 40),
+                    padding: const EdgeInsets.only(left: 30, top: 40,right: 30),
                     child: Text(
                       "注册",
                       //
                       style: TextStyle(
                         color: Colors.blue[800],
-                        fontSize: 16.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 40),
-                  height: 30,
-                  width: 1,
-                  color: Colors.grey,
-                ),
-                Expanded(
-                  flex: 1,
-                  child: FlatButton(
-                    onPressed:(){
-
-                    },
-                    padding: const EdgeInsets.only(left: 30, top: 40,right: 50),
-                    child: Text(
-                      "忘记密码？",
-                      style: TextStyle(
-                        color: Colors.grey,
                         fontSize: 16.0,
                       ),
                     ),

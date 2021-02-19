@@ -9,6 +9,7 @@ import 'package:flutter_module/page/recharge_detail_page.dart';
 import 'package:flutter_module/page/recharge_record_page.dart';
 import 'package:flutter_module/page/register_page.dart';
 import 'package:flutter_module/page/supplier_page.dart';
+import 'package:flutter_module/page/user_agreement_page.dart';
 import 'package:flutter_module/utils/common_util.dart';
 import 'package:flutter_module/utils/sharepreferences_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -39,7 +40,7 @@ Future<void> configLoading() async {
     ..userInteractions = true
     ..dismissOnTap = false;
 
-    token = await SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
+    token = SharePreferencesUtils.readFromLocalMap(CommonUtil.TOKEN);
     print("token " + token);
 }
 
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           home: (
-              token.toString() == null ? HomePage() : LoginPage()
+              token.toString() != null ? HomePage() : LoginPage()
           ),
           routes: {
             "home_page":(context)=> HomePage(),
@@ -75,7 +76,8 @@ class MyApp extends StatelessWidget {
             "recharge_detail_page":(context) => RechargeDetailPage(),
             "my_page":(context) => MyPage(),
             "login_page":(context) => LoginPage(),
-            "register_page":(context) => RegisterPage()
+            "register_page":(context) => RegisterPage(),
+            "user_agreement":(context) => UserAgreementPage()
           },
           builder: EasyLoading.init(),
         )

@@ -244,7 +244,7 @@ class _RegisterPage extends State<RegisterPage> {
                 margin: const EdgeInsets.only(left: 48, top: 40, right: 48),
                 child: FlatButton(
                   onPressed: (){
-
+                    Navigator.of(context).pushNamed("user_agreement");
                   },
                   child: Text(
                     "注册即同意用户协议"
