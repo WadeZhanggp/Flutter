@@ -10,8 +10,7 @@ import 'package:flutter_module/model/recharge_record_model.dart';
 import 'package:flutter_module/utils/common_data.dart';
 import 'package:flutter_module/utils/common_util.dart';
 import 'package:flutter_module/utils/sharepreferences_utils.dart';
-import 'package:flutter_module/utils/theme_colors.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 class RechargeRecordPage extends StatefulWidget {
   RechargeRecordPage({Key key}) : super(key: key);
@@ -38,8 +37,7 @@ class _RechargeRecordPage extends State<RechargeRecordPage> {
   bool _enablePullUp = true;
   //listview数据源
   List<TRANRECORD> orderItems = [];
-  //刷新加载控制器
-  RefreshController _refreshController = RefreshController(initialRefresh: false);
+
 
   @override
   void initState() {
@@ -73,92 +71,50 @@ class _RechargeRecordPage extends State<RechargeRecordPage> {
   _buildListData() {
 
     //给listview增加父节点SmartRefresher
-    return SmartRefresher(
-      ///可在此通过header:和footer:指定个性效果
-      //允许下拉
-      enablePullDown: true,
-      //允许上拉加载
-      enablePullUp: _enablePullUp,
-      //控制器
-      controller: _refreshController,
-      //刷新回调方法
-      onRefresh: _onRefresh,
-      //加载下一页回调
-      onLoading: _onLoading,
-      child: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          //添加点击手势
-          return GestureDetector(
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) {
+        //添加点击手势
+        return GestureDetector(
+          child: Container(
             child: Container(
-              child: Container(
-                height: 85,
-                constraints: BoxConstraints.expand(
-                    width: MediaQuery.of(context).size.width,
-                    height: 85
-                ),
-                decoration: BoxDecoration(
-                    border: Border(
-                      // 四个值 top right bottom left
-                        bottom: BorderSide(
-                          // 设置单侧边框的样式
-                            color: Colors.grey,
-                            width: 0.5,
-                            style: BorderStyle.solid))
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                        flex: 0,
-                        child: Container(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Image(
-                            image: AssetImage("images/img_payment.png"),
-                            width: 38,
-                            height: 38,
-                          ),
-                        )
-                    ),
-                    Expanded(
-                        flex: 0,
-                        child: Container(
-                          margin: EdgeInsets.only(left: 20),
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(top: 16),
-                                child: Text(
-                                  "Payment",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 6),
-                                child: Text(
-                                  orderItems[index].tRANDATE,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.grey
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                    ),
-                    Expanded(
-                        flex: 1,
+              height: 85,
+              constraints: BoxConstraints.expand(
+                  width: MediaQuery.of(context).size.width,
+                  height: 85
+              ),
+              decoration: BoxDecoration(
+                  border: Border(
+                    // 四个值 top right bottom left
+                      bottom: BorderSide(
+                        // 设置单侧边框的样式
+                          color: Colors.grey,
+                          width: 0.5,
+                          style: BorderStyle.solid))
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                      flex: 0,
+                      child: Container(
+                        padding: EdgeInsets.only(left: 20),
+                        child: Image(
+                          image: AssetImage("images/img_payment.png"),
+                          width: 38,
+                          height: 38,
+                        ),
+                      )
+                  ),
+                  Expanded(
+                      flex: 0,
+                      child: Container(
+                        margin: EdgeInsets.only(left: 20),
                         child: Column(
                           children: [
                             Container(
                               padding: EdgeInsets.only(top: 16),
                               child: Text(
-                                orderItems[index].tRANAMT,
-                                textAlign: TextAlign.right,
+                                "Payment",
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: Colors.black,
@@ -168,33 +124,62 @@ class _RechargeRecordPage extends State<RechargeRecordPage> {
                             Container(
                               margin: EdgeInsets.only(top: 6),
                               child: Text(
-                                getStatusWithCode(orderItems[index].oRDSTATUS),
-                                textAlign: TextAlign.right,
+                                orderItems[index].tRANDATE,
+                                textAlign: TextAlign.left,
                                 style: TextStyle(
                                     fontSize: 16,
                                     color: Colors.grey
                                 ),
                               ),
                             ),
-
                           ],
-                        )
-                    )
+                        ),
+                      )
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(top: 16),
+                            child: Text(
+                              orderItems[index].tRANAMT,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: 6),
+                            child: Text(
+                              getStatusWithCode(orderItems[index].oRDSTATUS),
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey
+                              ),
+                            ),
+                          ),
 
-                  ],
-                ),
+                        ],
+                      )
+                  )
+
+                ],
               ),
             ),
-            onTap: (){
-              if(orderItems[index].oRDSTATUS == "01"){
-                goDetailPage(orderItems[index].pRDORDNO);
-              }
+          ),
+          onTap: (){
+            if(orderItems[index].oRDSTATUS == "01"){
+              goDetailPage(orderItems[index].pRDORDNO);
+            }
 
-            },
-          );
-        },
-        itemCount: orderItems.length,
-      ),
+          },
+        );
+      },
+      itemCount: orderItems.length,
     );
   }
 
@@ -267,15 +252,14 @@ class _RechargeRecordPage extends State<RechargeRecordPage> {
         if(tranList.length >= 7){
           setState(() {
             orderItems.addAll(tranList);
-            _refreshController.refreshCompleted();
+
 
             _enablePullUp = true;
           });
         }else {
           setState(() {
             orderItems.addAll(tranList);
-            _refreshController.refreshCompleted();
-            _refreshController.loadComplete();
+
             _enablePullUp = false;
           });
 
