@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_module/dio/http_dio.dart';
 import 'package:flutter_module/dio/http_error.dart';
 import 'package:flutter_module/dio/http_manager.dart';
+import 'package:flutter_module/http/core/wd_error.dart';
+import 'package:flutter_module/http/dao/login_dao.dart';
 import 'package:flutter_module/model/login_model.dart';
 import 'package:flutter_module/page/home_page.dart';
 import 'package:flutter_module/utils/common_util.dart';
@@ -143,8 +145,15 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.center,
               child: FlatButton(
                 onPressed:() async {
+
+
+
+
                   String phoneNum = phoneController.text;
                   String passwd = passwdController.text;
+
+                  send(phoneNum, passwd);
+                  return;
 
                   if (phoneNum.isEmpty){
                     EasyLoading.showToast("请输入电话号码");
@@ -253,5 +262,25 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void send(String userName, String password) async{
+    try {
+      var result = await LoginDao.login(userName, password);
+      print(result);
+      if (result['code'] == 0) {
+        print('登录成功');
+
+      } else {
+        print(result['msg']);
+
+      }
+    } on NeedAuth catch (e) {
+      print(e);
+
+    } on WdNetError catch (e) {
+      print(e);
+
+    }
   }
 }
