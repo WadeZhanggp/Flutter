@@ -1,113 +1,145 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/db/wd_cache.dart';
+import 'package:flutterapp/page/home_page.dart';
+import 'package:flutterapp/page/login_page.dart';
+import 'package:flutterapp/page/register_page.dart';
+import 'package:flutterapp/util/color.dart';
+import 'package:flutterapp/util/toast.dart';
+
+import 'navigator/wd_navigator.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+}
+
+class _MyAppState extends State<MyApp> {
+  AppRouteDelegate _routeDelegate = AppRouteDelegate();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+    return FutureBuilder<WdCache>(
+        //进行初始化
+        future: WdCache.preInit(),
+        builder: (BuildContext context, AsyncSnapshot<WdCache> snapshot){
+          var widget = snapshot.connectionState == ConnectionState.done
+              ? Router(routerDelegate: _routeDelegate)
+              : Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+          return MaterialApp(
+            home: widget,
+            theme: ThemeData(primarySwatch: white),
+          );
+        }
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class AppRouteDelegate extends RouterDelegate<AppRoutePath>
+    with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoutePath>{
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+  //为Navigator设置一个key，必要的时候可以通过navigatorKey.currentState来获取到NavigatorState对象
+  AppRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
+    //实现路由跳转逻辑
+    WdNavigator.getInstance().registerRouteJump(
+        RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map args}) {
+          _routeStatus = routeStatus;
+          if (routeStatus == RouteStatus.detail) {
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+          }
+          notifyListeners();
+        }));
+    //设置网络错误拦截器
   }
+
+  RouteStatus _routeStatus = RouteStatus.home;
+  List<MaterialPage> pages = [];
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    var index = getPageIndex(pages, routeStatus);
+    List<MaterialPage> tempPages = pages;
+    if (index != -1) {
+      //要打开的页面在栈中已存在，则将该页面和它上面的所有页面进行出栈
+      //tips 具体规则可以根据需要进行调整，这里要求栈中只允许有一个同样的页面的实例
+      tempPages = tempPages.sublist(0, index);
+    }
+    var page;
+
+    if (routeStatus == RouteStatus.home) {
+      //跳转首页时将栈中其它页面进行出栈，因为首页不可回退
+      pages.clear();
+      page = pageWrap(HomePage());
+    }  else if (routeStatus == RouteStatus.register) {
+      page = pageWrap(RegisterPage());
+    } else if (routeStatus == RouteStatus.login) {
+      page = pageWrap(LoginPage());
+    }
+    //重新创建一个数组，否则pages因引用没有改变路由不会生效
+    tempPages = [...tempPages, page];
+    //通知路由发生变化
+    WdNavigator.getInstance().notify(tempPages, pages);
+    pages = tempPages;
+    return WillPopScope(
+      //fix Android物理返回键，无法返回上一页问题@https://github.com/flutter/flutter/issues/66349
+      onWillPop: () async => !await navigatorKey.currentState.maybePop(),
+      child: Navigator(
+        key: navigatorKey,
+        pages: pages,
+        onPopPage: (route, result) {
+          if (route.settings is MaterialPage) {
+            //登录页未登录返回拦截
+            if ((route.settings as MaterialPage).child is LoginPage) {
+              if (!hasLogin) {
+                showWarnToast("请先登录");
+                return false;
+              }
+            }
+          }
+          //执行返回操作
+          if (!route.didPop(result)) {
+            return false;
+          }
+          var tempPages = [...pages];
+          pages.removeLast();
+          //通知路由发生变化
+          WdNavigator.getInstance().notify(pages, tempPages);
+          return true;
+        },
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+
+  RouteStatus get routeStatus {
+    if (_routeStatus != RouteStatus.register && !hasLogin) {
+      return _routeStatus = RouteStatus.login;
+    } else {
+      return _routeStatus;
+    }
+  }
+
+  bool hasLogin = false;
+  //bool get hasLogin => LoginDao.getBoardingPass() != null;
+
+  @override
+  Future<void> setNewRoutePath(AppRoutePath path) async {}
+
 }
+
+class AppRoutePath {
+  final String location;
+
+  AppRoutePath.home() : location = "/";
+
+  AppRoutePath.detail() : location = "/detail";
+}
+
+
