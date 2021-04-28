@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                   String passwd = passwdController.text;
 
                   send(phoneNum, passwd);
-                  return;
+                  //return;
 
                   if (phoneNum.isEmpty){
                     EasyLoading.showToast("请输入电话号码");

@@ -3,8 +3,10 @@
 
 import 'package:flutterapp/db/wd_cache.dart';
 import 'package:flutterapp/http/core/wd_net.dart';
+import 'package:flutterapp/http/dio/http_dio.dart';
 import 'package:flutterapp/http/request/base_request.dart';
 import 'package:flutterapp/http/request/login_request.dart';
+import 'package:flutterapp/util/common_data.dart';
 
 class LoginDao {
 
@@ -40,19 +42,8 @@ class LoginDao {
       "tran": "HLogin",
     };
 
-    BaseRequest request;
-    request = LoginRequest();
-    request
-        .add("auth", authParam)
-        .add("data", dataParam)
-        .add("tran", "HLogin");
-    var result = await WdNet.getInstance().fire(request);
-    print(result);
-    if (result['code'] == 0 && result['data'] != null) {
-      //保存登录令牌
-      WdCache.getInstance().setString(Token, result['data']);
-    }
-    return result;
+     var result = HttpDio.getInstance().post(CommonData.appUrl, params: requestParam);
+     return result;
   }
 
   static getToken() {
