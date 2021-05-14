@@ -40,19 +40,19 @@ class _LoginInputState extends State<LoginInput>{
   void initState() {
     super.initState();
     //是否获取光标的监听
-    _focusNode.addListener(() {
-      print("Has focus: ${_focusNode.hasFocus}");
-      if (widget.focusChanged != null) {
-        widget.focusChanged(_focusNode.hasFocus);
-      }
-    });
+//    _focusNode.addListener(() {
+//      print("Has focus: ${_focusNode.hasFocus}");
+//      if (widget.focusChanged != null) {
+//        widget.focusChanged(_focusNode.hasFocus);
+//      }
+//    });
   }
 
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
+//  @override
+//  void dispose() {
+//    _focusNode.dispose();
+//    super.dispose();
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class _LoginInputState extends State<LoginInput>{
             height: 20,
             margin: const EdgeInsets.only(left: 20,top: 60,right: 30),
             child:  TextField(
-              focusNode: _focusNode,
+              //focusNode: _focusNode,
               onChanged: widget.onChanged,
               obscureText: widget.obscureText,
               keyboardType: widget.keyboardType,

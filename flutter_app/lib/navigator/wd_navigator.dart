@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
 import 'package:flutterapp/page/register_page.dart';
@@ -21,7 +22,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { login, register, home, detail, unknown }
+enum RouteStatus { login, register, home, forget ,detail, unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
@@ -31,6 +32,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.register;
   } else if (page.child is HomePage) {
     return RouteStatus.home;
+  }else if (page.child is ForgetPasswdPage) {
+    return RouteStatus.forget;
   }
 }
 

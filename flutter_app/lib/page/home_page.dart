@@ -1,5 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutterapp/core/wd_state.dart';
 
 class HomePage extends StatefulWidget{
   const HomePage({Key key}) : super(key: key);
@@ -9,11 +10,10 @@ class HomePage extends StatefulWidget{
 
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends WdState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Text("home");
   }
 }

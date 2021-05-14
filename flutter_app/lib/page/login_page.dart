@@ -1,10 +1,19 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutterapp/core/wd_state.dart';
+import 'package:flutterapp/db/wd_cache.dart';
 import 'package:flutterapp/http/dao/login_dao.dart';
+import 'package:flutterapp/model/login_model.dart';
+import 'package:flutterapp/navigator/wd_navigator.dart';
+import 'package:flutterapp/util/common_util.dart';
 import 'package:flutterapp/util/toast.dart';
 import 'package:flutterapp/widget/common_big_button.dart';
 import 'package:flutterapp/widget/login_input.dart';
+import 'package:flutterapp/widget/login_text_button.dart';
 
 class LoginPage extends StatefulWidget{
   const LoginPage({Key key}) : super(key: key);
@@ -21,7 +30,7 @@ UnderlineInputBorder _underlineInputBorder = UnderlineInputBorder(
 );
 
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends WdState<LoginPage> {
 
   bool loginEnable = false;
   String userName;
@@ -47,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             LoginInput(
               "请输入用户名",
-              image: AssetImage("images/img_passwd.png"),
+              image: AssetImage("images/img_phone.png"),
               onChanged: (text) {
                 userName = text;
               },
@@ -61,27 +70,35 @@ class _LoginPageState extends State<LoginPage> {
             ),
             CommonBigButton(
               "登录",
-              onPressed: send,
+              onPressed: login,
             ),
             Row(
               children: <Widget>[
                 Expanded(
                   flex: 1,
-                  child: FlatButton(
-                    onPressed:() async {
-                      Navigator.pushNamed(context, "register_page");
+                  child: LoginTextButton(
+                    "注册",
+                    Colors.blue,
+                    onPressed: () async {
+                      WdNavigator.getInstance().onJumpTo(RouteStatus.register);
                     },
-                    padding: const EdgeInsets.only(left: 30, top: 40,right: 30),
-                    child: Text(
-                      "注册",
-                      //
-                      style: TextStyle(
-                        color: Colors.blue[800],
-                        fontSize: 16.0,
-                      ),
-                    ),
                   ),
                 ),
+                Container(
+                  height: 20,
+                  width: 1,
+                  color: Colors.grey,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: LoginTextButton(
+                      "忘记密码",
+                      Colors.grey,
+                      onPressed: () async {
+                        WdNavigator.getInstance().onJumpTo(RouteStatus.forget);
+                      }
+                  ),
+                )
               ],
             )
           ],
@@ -90,9 +107,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void send() async {
-    showWarnToast("登录");
+  //登录
+  void login() async {
+    EasyLoading.show(status: 'loading...');
     var result = await LoginDao.login(userName, password);
-    print(result);
+    EasyLoading.dismiss();
+    Map loginMap = json.decode(result);
+    var login = new LoginModel.fromJson(loginMap);
+    if(login.rSPCOD == '00000'){
+      EasyLoading.showToast("登录成功");
+      WdCache.getInstance().setString(CommonUtil.TOKEN, login.dATA.sESSIONID);
+      WdCache.getInstance().setString(CommonUtil.KEY, login.dATA.kEY);
+      WdNavigator.getInstance().onJumpTo(RouteStatus.home);
+      
+    }else {
+      EasyLoading.showToast("登录失败");
+    }
+    
   }
 }

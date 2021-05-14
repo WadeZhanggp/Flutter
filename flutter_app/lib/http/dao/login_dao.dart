@@ -1,16 +1,15 @@
 
 
 
+import 'dart:convert';
+
 import 'package:flutterapp/db/wd_cache.dart';
-import 'package:flutterapp/http/core/wd_net.dart';
 import 'package:flutterapp/http/dio/http_dio.dart';
-import 'package:flutterapp/http/request/base_request.dart';
-import 'package:flutterapp/http/request/login_request.dart';
+import 'package:flutterapp/model/login_model.dart';
 import 'package:flutterapp/util/common_data.dart';
+import 'package:flutterapp/util/common_util.dart';
 
 class LoginDao {
-
-  static const Token = "token";
 
   static login(String userName, String password) {
     return _send(userName, password);
@@ -47,6 +46,6 @@ class LoginDao {
   }
 
   static getToken() {
-    return WdCache.getInstance().get(Token);
+    return WdCache.getInstance().get(CommonUtil.TOKEN);
   }
 }

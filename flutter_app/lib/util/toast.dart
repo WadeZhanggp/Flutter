@@ -7,7 +7,7 @@ void showWarnToast(String text) {
       msg: text,
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.grey,
       textColor: Colors.white);
 }
 

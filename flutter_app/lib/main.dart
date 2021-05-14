@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/db/wd_cache.dart';
+import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
 import 'package:flutterapp/page/register_page.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/toast.dart';
 
+import 'http/dao/login_dao.dart';
 import 'navigator/wd_navigator.dart';
 
 void main() {
@@ -27,6 +30,7 @@ class _MyAppState extends State<MyApp> {
         //进行初始化
         future: WdCache.preInit(),
         builder: (BuildContext context, AsyncSnapshot<WdCache> snapshot){
+
           var widget = snapshot.connectionState == ConnectionState.done
               ? Router(routerDelegate: _routeDelegate)
               : Scaffold(
@@ -35,6 +39,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             home: widget,
             theme: ThemeData(primarySwatch: white),
+            builder: EasyLoading.init()
           );
         }
     );
@@ -81,6 +86,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
       page = pageWrap(RegisterPage());
     } else if (routeStatus == RouteStatus.login) {
       page = pageWrap(LoginPage());
+    }else if (routeStatus == RouteStatus.forget) {
+      page = pageWrap(ForgetPasswdPage());
     }
     //重新创建一个数组，否则pages因引用没有改变路由不会生效
     tempPages = [...tempPages, page];
@@ -98,7 +105,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
             //登录页未登录返回拦截
             if ((route.settings as MaterialPage).child is LoginPage) {
               if (!hasLogin) {
-                showWarnToast("请先登录");
+                EasyLoading.showToast("请先登录");
                 return false;
               }
             }
@@ -119,15 +126,18 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
 
 
   RouteStatus get routeStatus {
-    if (_routeStatus != RouteStatus.register && !hasLogin) {
+
+
+    if (_routeStatus != RouteStatus.forget && _routeStatus != RouteStatus.register && !hasLogin) {
       return _routeStatus = RouteStatus.login;
-    } else {
+    }
+    else {
       return _routeStatus;
     }
   }
 
-  bool hasLogin = false;
-  //bool get hasLogin => LoginDao.getBoardingPass() != null;
+
+  bool get hasLogin => LoginDao.getToken() != null;
 
   @override
   Future<void> setNewRoutePath(AppRoutePath path) async {}
