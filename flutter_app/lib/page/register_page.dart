@@ -1,14 +1,17 @@
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
+import 'package:flutterapp/http/dao/register_dao.dart';
+import 'package:flutterapp/model/code_model.dart';
 import 'package:flutterapp/util/color.dart';
+import 'package:flutterapp/util/toast.dart';
 import 'package:flutterapp/widget/common_big_button.dart';
 import 'package:flutterapp/widget/login_input.dart';
-import 'package:flutterapp/widget/login_input_and_button.dart';
 import 'package:flutterapp/widget/navigation_bar.dart';
 import 'package:flutterapp/widget/wd_appbar.dart';
 
@@ -42,6 +45,7 @@ class _RegisterPageState extends WdState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: WdAppBar(
         barHeight: 88,
         backgroundColor: Colors.white,
@@ -70,67 +74,71 @@ class _RegisterPageState extends WdState<RegisterPage> {
         }
       ),
       backgroundColor: Colors.white,
-      body: //iOS 黑色状态栏
-      Column(
-        children: [
-          NavigationBar(
-            color: Colors.black,
-            statusStyle: StatusStyle.DARK_CONTENT,
-            height: 0,
-          ),
-          LoginInput(
-            "请输入用户名",
-            image: AssetImage("images/img_phone.png"),
-            onChanged: (text) {
-              userName = text;
-            },
-          ),
+      body:
+      SingleChildScrollView(
+        child: Column(
+          children: [
+            NavigationBar(
+              color: Colors.black,
+              statusStyle: StatusStyle.DARK_CONTENT,
+              height: 0,
+            ),
+            LoginInput(
+              "请输入用户名",
+              image: AssetImage("images/img_phone.png"),
+              onChanged: (text) {
+                userName = text;
+              },
+            ),
 
-          Container(
-            height: 80,
-            width: MediaQuery.of(context).size.width,
-            child: Stack(
-              alignment:Alignment.center , //指定未定位或部分定位widget的对齐方式
-              children: [
-                Positioned(
-                  child: LoginInput(
-                    "请输入验证码",
-                    image: AssetImage("images/img_sms_code.png"),
-                    onChanged: (text) {
-                      smsCode = text;
-                    },
+            Container(
+              height: 80,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                alignment:Alignment.center , //指定未定位或部分定位widget的对齐方式
+                children: [
+                  Positioned(
+                    child: LoginInput(
+                      "请输入验证码",
+                      image: AssetImage("images/img_sms_code.png"),
+                      onChanged: (text) {
+                        smsCode = text;
+                      },
+                    ),
                   ),
-                ),
-                Positioned(
-                  right: 30.0,
-                  bottom: -4,
-                  child: TextButton(
-                    onPressed: getCode,
-                    child: Text(
-                      handleCodeText(),
-                      style: TextStyle(
-                        color: ThemeColors.colorTheme,
-                        fontSize: 16.0,
+                  Positioned(
+                    right: 30.0,
+                    bottom: -4,
+                    child: TextButton(
+                      onPressed: getCode,
+                      child: Text(
+                        handleCodeText(),
+                        style: TextStyle(
+                          color: ThemeColors.colorTheme,
+                          fontSize: 16.0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          LoginInput(
-            "请输入密码",
-            image: AssetImage("images/img_passwd.png"),
-            onChanged: (text) {
-              userName = text;
-            },
-          ),
-          CommonBigButton(
-            "注册",
-            onPressed: register,
-          ),
-        ],
+            LoginInput(
+              "请输入密码",
+              image: AssetImage("images/img_passwd.png"),
+              onChanged: (text) {
+                password = text;
+              },
+            ),
+
+            CommonBigButton(
+              "注册",
+              onPressed: register,
+            ),
+          ],
+        ),
       )
+
 
     );
   }
@@ -140,13 +148,36 @@ class _RegisterPageState extends WdState<RegisterPage> {
     print("获取验证码");
     if(countdownTime == 0) {
       startCountdown();
+      showLoading();
+      var result = await RegisterDao.getVerCode(userName);
+      dismissLoading();
+      Map codeMap = json.decode(result);
+      var code = new CodeModel.fromJson(codeMap);
+      if(code.rSPCOD == '00000'){
+        showToast("验证码发送成功");
+      }else {
+        showToast(code.rSPMSG);
+      }
     }
   }
 
   //注册
   void register() async {
 
+    showLoading();
+    var result = await RegisterDao.register(userName, password, smsCode);
+    dismissLoading();
+    Map registerMap = json.decode(result);
+    var code = new CodeModel.fromJson(registerMap);
+    if(code.rSPCOD == '00000'){
+      showToast("注册成功");
+    }else {
+      showToast(code.rSPMSG);
+    }
+
   }
+
+
 
   //倒计时方法
   startCountdown() {

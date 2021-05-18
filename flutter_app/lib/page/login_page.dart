@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/db/wd_cache.dart';
 import 'package:flutterapp/http/dao/login_dao.dart';
@@ -109,19 +108,23 @@ class _LoginPageState extends WdState<LoginPage> {
 
   //登录
   void login() async {
-    EasyLoading.show(status: 'loading...');
+    showLoading();
     var result = await LoginDao.login(userName, password);
-    EasyLoading.dismiss();
+    dismissLoading();
     Map loginMap = json.decode(result);
     var login = new LoginModel.fromJson(loginMap);
     if(login.rSPCOD == '00000'){
-      EasyLoading.showToast("登录成功");
+      showToast("登录成功");
       WdCache.getInstance().setString(CommonUtil.TOKEN, login.dATA.sESSIONID);
       WdCache.getInstance().setString(CommonUtil.KEY, login.dATA.kEY);
       WdNavigator.getInstance().onJumpTo(RouteStatus.home);
       
     }else {
-      EasyLoading.showToast("登录失败");
+      if(login.rSPCOD == '00000'){
+        showToast("验证码发送成功");
+      }else {
+        showToast(login.rSPMSG);
+      }
     }
     
   }

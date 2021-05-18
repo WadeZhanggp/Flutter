@@ -31,6 +31,12 @@ UnderlineInputBorder _underlineInputBorder = UnderlineInputBorder(
   ),
 );
 
+UnderlineInputBorder _bluelineInputBorder = UnderlineInputBorder(
+  borderSide: BorderSide(
+    color: Colors.blue,
+  ),
+);
+
 
 class _LoginInputState extends State<LoginInput>{
 
@@ -71,7 +77,7 @@ class _LoginInputState extends State<LoginInput>{
         ),
         Expanded(
           child: Container(
-            height: 20,
+            height: 30,
             margin: const EdgeInsets.only(left: 20,top: 60,right: 30),
             child:  TextField(
               //focusNode: _focusNode,
@@ -79,6 +85,7 @@ class _LoginInputState extends State<LoginInput>{
               obscureText: widget.obscureText,
               keyboardType: widget.keyboardType,
               autofocus: !widget.obscureText,
+              cursorColor: Colors.blue,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
