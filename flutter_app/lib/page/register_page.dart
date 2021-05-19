@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/http/dao/register_dao.dart';
 import 'package:flutterapp/model/code_model.dart';
+import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/toast.dart';
 import 'package:flutterapp/widget/common_big_button.dart';
 import 'package:flutterapp/widget/login_input.dart';
 import 'package:flutterapp/widget/navigation_bar.dart';
 import 'package:flutterapp/widget/wd_appbar.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget{
   const RegisterPage({Key key}) : super(key: key);
@@ -32,6 +34,13 @@ class _RegisterPageState extends WdState<RegisterPage> {
   String userName;
   String password;
   String smsCode;
+  ThemeProvider _themeProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _themeProvider = context.read<ThemeProvider>();
+  }
 
   @override
   void dispose() {
@@ -45,10 +54,9 @@ class _RegisterPageState extends WdState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: WdAppBar(
         barHeight: 88,
-        backgroundColor: Colors.white,
+        backgroundColor: _themeProvider.isDark() ? WdColor.dark_bg : Colors.white,
         leadingWidget:  Row(
           children: [
             Image(
@@ -73,7 +81,7 @@ class _RegisterPageState extends WdState<RegisterPage> {
           Navigator.of(context).pop();
         }
       ),
-      backgroundColor: Colors.white,
+      //backgroundColor: _themeProvider.isDark() ? WdColor.dark_bg : Colors.white,
       body:
       SingleChildScrollView(
         child: Column(

@@ -22,7 +22,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { login, register, home, forget ,detail, unknown }
+enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {

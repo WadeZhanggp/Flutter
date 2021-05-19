@@ -51,7 +51,7 @@ class _HomePageState extends WdState<HomePage> {
                                     onPressed:() async {
                                       Navigator.pushNamed(context, "my_page");
                                     },
-                                    padding: const EdgeInsets.only(top: 40),
+                                    padding: const EdgeInsets.only(top: 50),
                                     child: Image(
                                       image: AssetImage("images/img_home_left.png"),
                                       width: 18,
@@ -62,7 +62,7 @@ class _HomePageState extends WdState<HomePage> {
                                 Expanded(
                                   flex: 1,
                                   child: FlatButton(
-                                    padding: const EdgeInsets.only( top: 40),
+                                    padding: const EdgeInsets.only( top: 50),
                                     child: Image(
                                       image: AssetImage("images/img_home_logo.png"),
                                       width: 68,
@@ -77,7 +77,7 @@ class _HomePageState extends WdState<HomePage> {
                                       //通过路由名打开新路由页
                                       Navigator.pushNamed(context, "recharge_record_page");
                                     },
-                                    padding: const EdgeInsets.only( top: 40),
+                                    padding: const EdgeInsets.only( top: 50),
                                     child: Image(
                                       image: AssetImage("images/img_home_right.png"),
                                       width: 18,

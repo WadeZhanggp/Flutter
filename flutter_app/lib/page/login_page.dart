@@ -10,6 +10,7 @@ import 'package:flutterapp/model/login_model.dart';
 import 'package:flutterapp/navigator/wd_navigator.dart';
 import 'package:flutterapp/util/common_util.dart';
 import 'package:flutterapp/util/toast.dart';
+import 'package:flutterapp/util/view_util.dart';
 import 'package:flutterapp/widget/common_big_button.dart';
 import 'package:flutterapp/widget/login_input.dart';
 import 'package:flutterapp/widget/login_text_button.dart';
@@ -29,11 +30,43 @@ UnderlineInputBorder _underlineInputBorder = UnderlineInputBorder(
 );
 
 
-class _LoginPageState extends WdState<LoginPage> {
+class _LoginPageState extends WdState<LoginPage> with WidgetsBindingObserver{
 
   bool loginEnable = false;
   String userName;
   String password;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  ///监听应用生命周期变化
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print(':didChangeAppLifecycleState:$state');
+    switch (state) {
+      case AppLifecycleState.inactive: // 处于这种状态的应用程序应该假设它们可能在任何时候暂停。
+        break;
+      case AppLifecycleState.resumed: //从后台切换前台，界面可见
+      //fix Android压后台首页状态栏字体颜色变白，详情页状态栏字体变黑问题
+        //changeStatusBar();
+        break;
+      case AppLifecycleState.paused: // 界面不可见，后台
+        break;
+      case AppLifecycleState.detached: // APP结束时调用
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

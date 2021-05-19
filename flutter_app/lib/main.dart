@@ -5,8 +5,12 @@ import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
 import 'package:flutterapp/page/register_page.dart';
+import 'package:flutterapp/provider/theme_provider.dart';
+import 'package:flutterapp/provider/wd_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/toast.dart';
+import 'package:flutterapp/util/wd_constants.dart';
+import 'package:provider/provider.dart';
 
 import 'http/dao/login_dao.dart';
 import 'navigator/wd_navigator.dart';
@@ -31,15 +35,24 @@ class _MyAppState extends State<MyApp> {
         future: WdCache.preInit(),
         builder: (BuildContext context, AsyncSnapshot<WdCache> snapshot){
 
+          WdCache.getInstance().setString(WdConstants.theme, "Dark");
+
           var widget = snapshot.connectionState == ConnectionState.done
               ? Router(routerDelegate: _routeDelegate)
               : Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
-          return MaterialApp(
-            home: widget,
-            theme: ThemeData(primarySwatch: white),
-            builder: EasyLoading.init()
+          return MultiProvider(
+              providers: topProviders,
+              child: Consumer<ThemeProvider>(builder: (BuildContext context, ThemeProvider themeProvider, Widget child){
+                return MaterialApp(
+                    theme: themeProvider.getTheme(),
+                    home: widget,
+                    darkTheme: themeProvider.getTheme(isDarkMode: true),
+                    themeMode: themeProvider.getThemeMode(),
+                    builder: EasyLoading.init()
+                );
+              },),
           );
         }
     );
@@ -56,9 +69,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     WdNavigator.getInstance().registerRouteJump(
         RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map args}) {
           _routeStatus = routeStatus;
-          if (routeStatus == RouteStatus.detail) {
 
-          }
           notifyListeners();
         }));
     //设置网络错误拦截器
