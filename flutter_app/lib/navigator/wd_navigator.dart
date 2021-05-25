@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/page/about_page.dart';
 import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
+import 'package:flutterapp/page/recharge_detail_page.dart';
+import 'package:flutterapp/page/recharge_record_page.dart';
 import 'package:flutterapp/page/register_page.dart';
 
 typedef RouteChangeListener(RouteStatusInfo current, RouteStatusInfo pre);
@@ -22,7 +25,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,unknown }
+enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,about,unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
@@ -34,6 +37,12 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.home;
   }else if (page.child is ForgetPasswdPage) {
     return RouteStatus.forget;
+  }else if (page.child is AboutPage) {
+    return RouteStatus.about;
+  }else if (page.child is RechargeRecordPage) {
+    return RouteStatus.rechargeRecord;
+  }else if (page.child is RechargeDetailPage) {
+    return RouteStatus.rechargeDetail;
   }
 }
 

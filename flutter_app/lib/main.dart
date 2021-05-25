@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/db/wd_cache.dart';
+import 'package:flutterapp/page/about_page.dart';
 import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
+import 'package:flutterapp/page/recharge_detail_page.dart';
+import 'package:flutterapp/page/recharge_record_page.dart';
 import 'package:flutterapp/page/register_page.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/provider/wd_provider.dart';
@@ -63,8 +66,14 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoutePath>{
   final GlobalKey<NavigatorState> navigatorKey;
 
+  bool get hasLogin => LoginDao.getToken() != null;
+
+
+
   //为Navigator设置一个key，必要的时候可以通过navigatorKey.currentState来获取到NavigatorState对象
   AppRouteDelegate() : navigatorKey = GlobalKey<NavigatorState>() {
+    //String token = LoginDao.getToken();
+
     //实现路由跳转逻辑
     WdNavigator.getInstance().registerRouteJump(
         RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map args}) {
@@ -72,7 +81,13 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
 
           notifyListeners();
         }));
-    //设置网络错误拦截器
+
+//    if(!hasLogin){
+//      //拉起登录
+//      WdNavigator.getInstance().onJumpTo(RouteStatus.login);
+//    }
+
+
   }
 
   RouteStatus _routeStatus = RouteStatus.home;
@@ -89,6 +104,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     }
     var page;
 
+
+
     if (routeStatus == RouteStatus.home) {
       //跳转首页时将栈中其它页面进行出栈，因为首页不可回退
       pages.clear();
@@ -96,10 +113,23 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     }  else if (routeStatus == RouteStatus.register) {
       page = pageWrap(RegisterPage());
     } else if (routeStatus == RouteStatus.login) {
+      //跳转首页时将栈中其它页面进行出栈，因为首页不可回退
+      pages.clear();
       page = pageWrap(LoginPage());
     }else if (routeStatus == RouteStatus.forget) {
       page = pageWrap(ForgetPasswdPage());
+    }else if (routeStatus == RouteStatus.login) {
+      pages.clear();
+      page = pageWrap(LoginPage());
+    }else if (routeStatus == RouteStatus.about) {
+      page = pageWrap(AboutPage());
+    }else if (routeStatus == RouteStatus.rechargeRecord) {
+      page = pageWrap(RechargeRecordPage());
+    }else if (routeStatus == RouteStatus.rechargeDetail) {
+      page = pageWrap(RechargeDetailPage());
     }
+
+
     //重新创建一个数组，否则pages因引用没有改变路由不会生效
     tempPages = [...tempPages, page];
     //通知路由发生变化
@@ -148,7 +178,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
   }
 
 
-  bool get hasLogin => LoginDao.getToken() != null;
+
 
   @override
   Future<void> setNewRoutePath(AppRoutePath path) async {}

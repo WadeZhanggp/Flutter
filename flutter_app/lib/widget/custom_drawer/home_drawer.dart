@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterapp/util/color.dart';
 
 class HomeDrawer extends StatefulWidget {
   const HomeDrawer({Key key, this.screenIndex, this.iconAnimationController, this.callBackIndex}) : super(key: key);
@@ -6,6 +7,7 @@ class HomeDrawer extends StatefulWidget {
   final AnimationController iconAnimationController;
   final DrawerIndex screenIndex;
   final Function(DrawerIndex) callBackIndex;
+
 
   @override
   _HomeDrawerState createState() => _HomeDrawerState();
@@ -23,33 +25,23 @@ class _HomeDrawerState extends State<HomeDrawer> {
     drawerList = <DrawerList>[
       DrawerList(
         index: DrawerIndex.HOME,
-        labelName: 'Home',
+        labelName: '首页',
         icon: Icon(Icons.home),
       ),
       DrawerList(
         index: DrawerIndex.Help,
-        labelName: 'Help',
+        labelName: '联系我们',
         isAssetsImage: true,
-        imageName: 'assets/images/supportIcon.png',
-      ),
-      DrawerList(
-        index: DrawerIndex.FeedBack,
-        labelName: 'FeedBack',
-        icon: Icon(Icons.help),
-      ),
-      DrawerList(
-        index: DrawerIndex.Invite,
-        labelName: 'Invite Friend',
-        icon: Icon(Icons.group),
+        imageName: 'images/img_supportIcon.png',
       ),
       DrawerList(
         index: DrawerIndex.Share,
-        labelName: 'Rate the app',
+        labelName: '分享APP',
         icon: Icon(Icons.share),
       ),
       DrawerList(
         index: DrawerIndex.About,
-        labelName: 'About Us',
+        labelName: '关于',
         icon: Icon(Icons.info),
       ),
     ];
@@ -83,8 +75,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                                   .value /
                               360),
                           child: Container(
-                            height: 120,
-                            width: 120,
+                            height: 100,
+                            width: 100,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               boxShadow: <BoxShadow>[
@@ -92,8 +84,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               ],
                             ),
                             child: ClipRRect(
-                              borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('assets/images/userImage.png'),
+                              borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+                              child: Image.asset('images/img_user_image.png'),
                             ),
                           ),
                         ),
@@ -140,7 +132,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             children: <Widget>[
               ListTile(
                 title: Text(
-                  'Sign Out',
+                  '退出登录',
                   style: TextStyle(
                     //fontFamily: AppTheme.fontName,
                     fontWeight: FontWeight.w600,
@@ -151,9 +143,11 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ),
                 trailing: Icon(
                   Icons.power_settings_new,
-                  color: Colors.red,
+                  color: ThemeColors.colorTheme,
                 ),
-                onTap: () {},
+                onTap: () {
+                  navigationtoScreen(DrawerIndex.SignOut);
+                },
               ),
               SizedBox(
                 height: MediaQuery.of(context).padding.bottom,
@@ -266,6 +260,7 @@ enum DrawerIndex {
   About,
   Invite,
   Testing,
+  SignOut
 }
 
 class DrawerList {

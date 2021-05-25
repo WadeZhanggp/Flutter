@@ -12,6 +12,7 @@ class DrawerUserController extends StatefulWidget {
     this.menuView,
     this.drawerIsOpen,
     this.screenIndex,
+    this.color,
   }) : super(key: key);
 
   final double drawerWidth;
@@ -21,6 +22,7 @@ class DrawerUserController extends StatefulWidget {
   final AnimatedIconData animatedIconData;
   final Widget menuView;
   final DrawerIndex screenIndex;
+  final Color color;
 
   @override
   _DrawerUserControllerState createState() => _DrawerUserControllerState();
@@ -80,7 +82,7 @@ class _DrawerUserControllerState extends State<DrawerUserController> with Ticker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: widget.color == null ? Colors.white :widget.color,
       body: SingleChildScrollView(
         controller: scrollController,
         scrollDirection: Axis.horizontal,
@@ -121,7 +123,7 @@ class _DrawerUserControllerState extends State<DrawerUserController> with Ticker
                 //full-screen Width with widget.screenView
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: widget.color == null ? Colors.white :widget.color,
                     boxShadow: <BoxShadow>[
                       BoxShadow(color: Colors.grey.withOpacity(0.6), blurRadius: 24),
                     ],
@@ -142,7 +144,7 @@ class _DrawerUserControllerState extends State<DrawerUserController> with Ticker
                         ),
                       // this just menu and arrow icon animation
                       Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 8, left: 8),
+                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top - 11, left: 19),
                         child: SizedBox(
                           width: AppBar().preferredSize.height - 8,
                           height: AppBar().preferredSize.height - 8,

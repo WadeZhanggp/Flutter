@@ -111,6 +111,7 @@ class HttpDio {
       print(response);
     } catch (e) {
       formatError(e);
+      return e;
     }
     return response.data;
   }
