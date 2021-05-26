@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/db/wd_cache.dart';
+//import 'package:flutterapp/http_net/dao/login_dao.dart';
 import 'package:flutterapp/http/dao/login_dao.dart';
 import 'package:flutterapp/model/login_model.dart';
 import 'package:flutterapp/navigator/wd_navigator.dart';
@@ -141,6 +142,8 @@ class _LoginPageState extends WdState<LoginPage> with WidgetsBindingObserver{
 
   //登录
   void login() async {
+
+    //var result = await LoginDao.login(userName, password);
     showLoading();
     var result = await LoginDao.login(userName, password);
     dismissLoading();
@@ -151,7 +154,7 @@ class _LoginPageState extends WdState<LoginPage> with WidgetsBindingObserver{
       WdCache.getInstance().setString(CommonUtil.TOKEN, login.dATA.sESSIONID);
       WdCache.getInstance().setString(CommonUtil.KEY, login.dATA.kEY);
       WdNavigator.getInstance().onJumpTo(RouteStatus.home);
-      
+
     }else {
       if(login.rSPCOD == '00000'){
         showToast("验证码发送成功");

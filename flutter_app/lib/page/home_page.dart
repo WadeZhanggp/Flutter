@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/db/wd_cache.dart';
+import 'package:flutterapp/model/supplier_model.dart';
 import 'package:flutterapp/navigator/wd_navigator.dart';
+import 'package:flutterapp/provider/supplier_provider.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/common_util.dart';
@@ -23,11 +25,13 @@ class _HomePageState extends WdState<HomePage> {
 
   Widget screenView;
   ThemeProvider _themeProvider;
+  SupplierProvider _supplierProvider;
 
   @override
   void initState() {
     super.initState();
     _themeProvider = context.read<ThemeProvider>();
+    _supplierProvider = context.read<SupplierProvider>();
   }
 
   @override
@@ -44,9 +48,9 @@ class _HomePageState extends WdState<HomePage> {
             print("点击位置 $drawerIndexdata ");
             //退出登录
             if(drawerIndexdata == DrawerIndex.SignOut){
+              WdCache.getInstance().setString(CommonUtil.TOKEN, "");
+              WdCache.getInstance().setString(CommonUtil.KEY, "");
               WdNavigator.getInstance().onJumpTo(RouteStatus.login);
-              WdCache.getInstance().setString(CommonUtil.TOKEN, null);
-              WdCache.getInstance().setString(CommonUtil.KEY, null);
             }
             //About
             if(drawerIndexdata == DrawerIndex.About){
@@ -178,6 +182,7 @@ class _HomePageState extends WdState<HomePage> {
                         ),
                       ),
                       Container(
+                        margin: const EdgeInsets.only(left: 0),
                         constraints: BoxConstraints.expand(
                             width: 200,
                             height: 45
@@ -191,17 +196,25 @@ class _HomePageState extends WdState<HomePage> {
                                     width: 1,
                                     style: BorderStyle.solid))
                         ),
-                        child: FlatButton(
+                        child: TextButton(
                           onPressed:() async {
-
-
-
+                            WdNavigator.getInstance().onJumpTo(RouteStatus.supplier);
                           },
+                          child: Consumer<SupplierProvider>(builder: (BuildContext context, SupplierProvider supplierProvider, Widget child){
+                            return Text(
+                              supplierProvider.ELEN_NAME == null ? "请选中付款单位" : supplierProvider.ELEN_NAME ,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 16.0,
+                              ),
+                              textAlign: TextAlign.left,
+                            );
+                          }
+
                           //padding: const EdgeInsets.only( top: 40),
 
-                        ),
-                      ),
-                      Container(
+                        )),
+                      ), Container(
                         margin: EdgeInsets.only(top: 10),
                         child: Text(
                           "表号",

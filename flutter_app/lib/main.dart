@@ -8,6 +8,8 @@ import 'package:flutterapp/page/login_page.dart';
 import 'package:flutterapp/page/recharge_detail_page.dart';
 import 'package:flutterapp/page/recharge_record_page.dart';
 import 'package:flutterapp/page/register_page.dart';
+import 'package:flutterapp/page/supplier_page.dart';
+import 'package:flutterapp/provider/supplier_provider.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/provider/wd_provider.dart';
 import 'package:flutterapp/util/color.dart';
@@ -66,7 +68,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoutePath>{
   final GlobalKey<NavigatorState> navigatorKey;
 
-  bool get hasLogin => LoginDao.getToken() != null;
+
 
 
 
@@ -127,6 +129,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
       page = pageWrap(RechargeRecordPage());
     }else if (routeStatus == RouteStatus.rechargeDetail) {
       page = pageWrap(RechargeDetailPage());
+    }else if (routeStatus == RouteStatus.supplier) {
+      page = pageWrap(SupplierPage());
     }
 
 
@@ -168,7 +172,6 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
 
   RouteStatus get routeStatus {
 
-
     if (_routeStatus != RouteStatus.forget && _routeStatus != RouteStatus.register && !hasLogin) {
       return _routeStatus = RouteStatus.login;
     }
@@ -178,7 +181,14 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
   }
 
 
-
+//  bool get hasLogin => (LoginDao.getToken() !=  null || LoginDao.getToken() !=  "" );
+  bool get hasLogin {
+    print("token +" + LoginDao.getToken());
+    if (LoginDao.getToken() !=  null && LoginDao.getToken() !=  "" ){
+      return true;
+    }
+    return false;
+  }
 
   @override
   Future<void> setNewRoutePath(AppRoutePath path) async {}
