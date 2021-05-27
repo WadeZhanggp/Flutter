@@ -1,14 +1,19 @@
 
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/db/wd_cache.dart';
+import 'package:flutterapp/http/dao/home_dao.dart';
+import 'package:flutterapp/model/query_meter_model.dart';
 import 'package:flutterapp/model/supplier_model.dart';
 import 'package:flutterapp/navigator/wd_navigator.dart';
 import 'package:flutterapp/provider/supplier_provider.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/common_util.dart';
+import 'package:flutterapp/util/toast.dart';
 import 'package:flutterapp/widget/custom_drawer/drawer_user_controller.dart';
 import 'package:flutterapp/widget/custom_drawer/home_drawer.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +31,7 @@ class _HomePageState extends WdState<HomePage> {
   Widget screenView;
   ThemeProvider _themeProvider;
   SupplierProvider _supplierProvider;
+  String meterNo;
 
   @override
   void initState() {
@@ -241,6 +247,9 @@ class _HomePageState extends WdState<HomePage> {
                             hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey),//设置提示文字样式
 
                           ),
+                          onChanged: (text){
+                            meterNo = text;
+                          },
                         ),
                       ),
                       Container(
@@ -257,7 +266,7 @@ class _HomePageState extends WdState<HomePage> {
                         alignment: Alignment.center,
                         child: FlatButton(
                           onPressed:() async {
-
+                            queryMeter();
                           },
                           child: Text(
                             "下一步",
@@ -277,5 +286,23 @@ class _HomePageState extends WdState<HomePage> {
           ),
         )
     );
+  }
+
+  //查询表
+  void queryMeter() async {
+    showLoading();
+    var result = await HomeDao.queryMeter(_supplierProvider.ELEN_ID, meterNo);
+    dismissLoading();
+    Map queryMeterMap = json.decode(result);
+    var queryMeter = new QueryMeterModel.fromJson(queryMeterMap);
+    if(queryMeter.rSPCOD == '00000'){
+      queryMeter.ENEL_ID = _supplierProvider.ELEN_ID;
+     showToast("查询表成功");
+     //传参
+     WdNavigator.getInstance().onJumpTo(RouteStatus.billDetail,args: {"queryMeterModel": queryMeter});
+
+    }else {
+      showToast(queryMeter.rSPMSG);
+    }
   }
 }

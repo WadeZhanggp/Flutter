@@ -1,10 +1,9 @@
 
 import 'dart:convert';
-
 import 'package:crypto/crypto.dart';
-import 'package:flutterapp/db/wd_cache.dart';
-import 'package:convert/convert.dart';
 
+import 'package:convert/convert.dart';
+import 'package:flutterapp/db/wd_cache.dart';
 
 class CommonUtil {
 
@@ -43,9 +42,9 @@ class CommonUtil {
       orginString = orginString + key + "=" +  value;
     }
 
-    var key = WdCache.getInstance().get("token");
+    var key = await WdCache.getInstance().get(CommonUtil.KEY);;
     orginString = orginString + "&KEY=" + key;
-    
+
     return generateMD5(orginString);
 
   }
@@ -98,7 +97,6 @@ class CommonUtil {
     var content = new Utf8Encoder().convert(data);
     var digest = md5.convert(content);
     // 这里其实就是 digest.toString()
-
     return hex.encode(digest.bytes);
   }
 }

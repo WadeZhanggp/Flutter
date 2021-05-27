@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/page/about_page.dart';
+import 'package:flutterapp/page/bill_details_page.dart';
 import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
@@ -26,7 +27,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,about,supplier,unknown }
+enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,about,supplier,billDetail,unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
@@ -46,6 +47,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.rechargeDetail;
   }else if (page.child is SupplierPage) {
     return RouteStatus.supplier;
+  }else if (page.child is BillDetailsPage) {
+    return RouteStatus.billDetail;
   }
 }
 

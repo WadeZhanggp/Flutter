@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/db/wd_cache.dart';
 import 'package:flutterapp/page/about_page.dart';
+import 'package:flutterapp/page/bill_details_page.dart';
 import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
@@ -18,6 +19,7 @@ import 'package:flutterapp/util/wd_constants.dart';
 import 'package:provider/provider.dart';
 
 import 'http/dao/login_dao.dart';
+import 'model/query_meter_model.dart';
 import 'navigator/wd_navigator.dart';
 
 void main() {
@@ -80,6 +82,9 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     WdNavigator.getInstance().registerRouteJump(
         RouteJumpListener(onJumpTo: (RouteStatus routeStatus, {Map args}) {
           _routeStatus = routeStatus;
+          if (routeStatus == RouteStatus.billDetail) {
+            this.queryMeter = args['queryMeterModel'];
+          }
 
           notifyListeners();
         }));
@@ -94,6 +99,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
 
   RouteStatus _routeStatus = RouteStatus.home;
   List<MaterialPage> pages = [];
+  QueryMeterModel queryMeter;
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +137,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
       page = pageWrap(RechargeDetailPage());
     }else if (routeStatus == RouteStatus.supplier) {
       page = pageWrap(SupplierPage());
+    }else if (routeStatus == RouteStatus.billDetail) {
+      page = pageWrap(BillDetailsPage(queryMeter));
     }
 
 
