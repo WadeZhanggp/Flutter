@@ -44,25 +44,17 @@ class _SupplierPage extends State<SupplierPage> {
             barHeight: 88,
             backgroundColor: ThemeColors.colorTheme,
             leadingWidget:  Container(
-              child: Row(
-                children: [
-                  Image(
-                    image: AssetImage("images/img_back_white.png"),
-                    width: 20,
-                    height: 20,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 12),
-                    child: Text(
-                      "付款到",
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                ],
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.pop(context),
               ),
+            ),
+            centerWidget: Text(
+              "供应商",
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
             ),
             onPressedLeft: () async {
               print('点击左');

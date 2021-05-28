@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/model/order_detail_model.dart';
 import 'package:flutterapp/util/color.dart';
+import 'package:flutterapp/widget/wd_appbar.dart';
 
 class RechargeDetailPage extends StatefulWidget{
-  const RechargeDetailPage({Key key}) : super(key: key);
+
+  //传参赋值
+  final OrderDetailModel orderDetailModel;
+  const RechargeDetailPage(this.orderDetailModel);
+
 
   @override
   _RechargeDetailPageState createState() => _RechargeDetailPageState();
@@ -23,11 +28,28 @@ class _RechargeDetailPageState extends WdState<RechargeDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    /* 接收参数 */
-    final OrderDetailModel orderDetailModel = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text("订单详情"),
+        appBar: WdAppBar(
+            barHeight: 88,
+            backgroundColor: ThemeColors.colorTheme,
+            leadingWidget:  Container(
+              child: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+            centerWidget: Text(
+              "订单详情",
+              style: TextStyle(color: Colors.white, fontSize: 18.0),
+            ),
+            onPressedLeft: () async {
+              print('点击左');
+              Navigator.of(context).pop();
+            }
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -61,7 +83,7 @@ class _RechargeDetailPageState extends WdState<RechargeDetailPage> {
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 10),
                 child: Text(
-                  orderDetailModel.dATA.tOKEN,
+                  widget.orderDetailModel.dATA.tOKEN != null ? widget.orderDetailModel.dATA.tOKEN : "",
                   style: TextStyle(
                       fontSize: 24,
                       color: ThemeColors.colorTheme
@@ -88,7 +110,7 @@ class _RechargeDetailPageState extends WdState<RechargeDetailPage> {
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: 10),
                 child: Text(
-                  "RMB " + orderDetailModel.dATA.tRANAMT,
+                  "RMB " + widget.orderDetailModel.dATA.tRANAMT,
                   style: TextStyle(
                       fontSize: 24,
                       color: Colors.green
@@ -100,5 +122,7 @@ class _RechargeDetailPageState extends WdState<RechargeDetailPage> {
         )
     );
   }
+
+
 
 }

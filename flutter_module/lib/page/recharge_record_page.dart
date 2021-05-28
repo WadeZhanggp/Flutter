@@ -293,7 +293,7 @@ class _RechargeRecordPage extends State<RechargeRecordPage> {
 
   goDetailPage(String proNo) async {
     await EasyLoading.show(
-      maskType: EasyLoadingMaskType.black,
+    maskType: EasyLoadingMaskType.black,
     );
     //创建时间对象，获取当前时间
     DateTime now = new DateTime.now();

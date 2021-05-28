@@ -4,10 +4,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/http/dao/bill_detail_dao.dart';
+import 'package:flutterapp/http/dao/recharge_record_dao.dart';
 import 'package:flutterapp/model/create_order_model.dart';
 import 'package:flutterapp/model/order_detail_model.dart';
 import 'package:flutterapp/model/pre_alipay_model.dart';
 import 'package:flutterapp/model/query_meter_model.dart';
+import 'package:flutterapp/navigator/wd_navigator.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/toast.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -291,7 +293,9 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             "取消",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () async{
+            Alert().dismiss();
+          },
           color: Colors.grey,
         ),
         DialogButton(
@@ -300,6 +304,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           onPressed: () async{
+            Alert().dismiss();
             preAlipayRequest(proNo);
           },
           color: ThemeColors.colorTheme,
@@ -328,6 +333,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
         //支付成功
         if(payResult != null && payResult["resultStatus"] == "9000"){
           showToast("支付成功");
+          goDetailPage(proNo);
         }else{
           showToast("支付失败");
         }
@@ -338,5 +344,20 @@ class _BillDetailsPage extends State<BillDetailsPage> {
       showToast(preAlipayModel.rSPMSG);
     }
 
+  }
+
+  void goDetailPage(String proNo) async {
+    showLoading();
+    var result = await RechargeRecordDao.orderDetail(proNo);
+    dismissLoading();
+    Map rechargeDetailMap = json.decode(result);
+    var detailModel = new OrderDetailModel.fromJson(rechargeDetailMap);
+    if(detailModel.rSPCOD == '00000'){
+
+      WdNavigator.getInstance().onJumpTo(RouteStatus.rechargeDetail,args: {"detailModel": detailModel});
+
+    }else {
+      showToast(detailModel.rSPMSG);
+    }
   }
 }

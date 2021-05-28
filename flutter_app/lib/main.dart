@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutterapp/db/wd_cache.dart';
+import 'package:flutterapp/model/order_detail_model.dart';
 import 'package:flutterapp/page/about_page.dart';
 import 'package:flutterapp/page/bill_details_page.dart';
 import 'package:flutterapp/page/forget_passwd.dart';
@@ -84,6 +85,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
           _routeStatus = routeStatus;
           if (routeStatus == RouteStatus.billDetail) {
             this.queryMeter = args['queryMeterModel'];
+          }else if (routeStatus == RouteStatus.rechargeDetail) {
+            this.orderDetailModel = args['detailModel'];
           }
 
           notifyListeners();
@@ -100,6 +103,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
   RouteStatus _routeStatus = RouteStatus.home;
   List<MaterialPage> pages = [];
   QueryMeterModel queryMeter;
+  OrderDetailModel orderDetailModel;
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +138,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     }else if (routeStatus == RouteStatus.rechargeRecord) {
       page = pageWrap(RechargeRecordPage());
     }else if (routeStatus == RouteStatus.rechargeDetail) {
-      page = pageWrap(RechargeDetailPage());
+      page = pageWrap(RechargeDetailPage(orderDetailModel));
     }else if (routeStatus == RouteStatus.supplier) {
       page = pageWrap(SupplierPage());
     }else if (routeStatus == RouteStatus.billDetail) {

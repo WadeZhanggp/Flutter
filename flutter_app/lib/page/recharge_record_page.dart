@@ -1,7 +1,19 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flukit/flukit.dart';
+import 'package:flutterapp/http/dao/login_dao.dart';
+import 'package:flutterapp/http/dao/recharge_record_dao.dart';
+import 'package:flutterapp/model/order_detail_model.dart';
+import 'package:flutterapp/model/recharge_record_model.dart';
+import 'package:flutterapp/navigator/wd_navigator.dart';
+import 'package:flutterapp/util/color.dart';
+import 'package:flutterapp/util/toast.dart';
+import 'package:flutterapp/widget/custom_pullrefresh_header.dart';
+import 'package:flutterapp/widget/recharge_record_item.dart';
+import 'package:flutterapp/widget/wd_appbar.dart';
 
 
 class RechargeRecordPage extends StatefulWidget{
@@ -18,65 +30,123 @@ class _RechargeRecordPageState extends WdState<RechargeRecordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return InfiniteListView<int>(
-      headerBuilder: (list,context){
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text("功能介绍: 支持下拉刷新和上拉加载"),
-        );
-      },
-      itemBuilder: (List list, int index, BuildContext ctx) {
-        return ListTile(title: Text("${list[index]}"));
-      },
-      onRetrieveData: (int page, List items, bool refresh) {
-        return Future.delayed(Duration(seconds: 2), () {
-          int start = _current;
-          if (refresh) {
-            //如果是下拉数显
-            _current = start = 0;
-            items.clear();
-          }
-          if (_current == 50) return false; //最多加载50条
-          while (start++ < _current + 10) {
-            items.add(start);
-          }
-          _current += 10;
-          return true;
-        });
-      },
-      loadingBuilder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              AnimatedRotationBox(
-                duration: Duration(milliseconds: 800),
-                child: GradientCircularProgressIndicator(
-                  radius: 10.0,
-                  colors: [Colors.blue, Colors.lightBlue[50]],
-                  value: .8,
-                  backgroundColor: Colors.transparent,
-                  strokeCapRound: true,
-                ),
+    return Scaffold(
+      appBar: WdAppBar(
+          barHeight: 88,
+          backgroundColor: ThemeColors.colorTheme,
+          leadingWidget:  Container(
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
               ),
-              Text("  加载更多...")
-            ],
-          ),
-        );
-      },
-      noMoreViewBuilder: (list, context) {
-        return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "共${list.length}条",
-              style: TextStyle(color: Colors.grey),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
-        );
-      },
+          centerWidget: Text(
+            "充值记录",
+            style: TextStyle(color: Colors.white, fontSize: 18.0),
+          ),
+          onPressedLeft: () async {
+            print('点击左');
+            Navigator.of(context).pop();
+          }
+      ),
+      body: InfiniteListView<TRANRECORD>(
+        itemBuilder: (List list, int index, BuildContext ctx) {
+          return RechargeRecordItem(
+              list[index].tRANDATE,
+              list[index].tRANAMT,
+              list[index].oRDSTATUS,
+              onTap: (){
+                print("点击数组位置$index");
+                TRANRECORD tranrecord = list[index];
+                goDetailPage(tranrecord.pRDORDNO);
+
+            },
+          );
+        },
+        onRetrieveData: (int page, List items, bool refresh) async {
+
+          int start = _current;
+
+          var result = await RechargeRecordDao.orderRecord(refresh, start, 10);
+
+          Map rechargeRecordMap = json.decode(result);
+          var rechargeRecordModel = new RechargeRecordModel.fromJson(rechargeRecordMap);
+          if(rechargeRecordModel.rSPCOD == '00000'){
+            var list = rechargeRecordMap['DATA']["TRAN_RECORD"] as List;
+            List<TRANRECORD> tranList = list.map((i) => TRANRECORD.fromJson(i)).toList();
+            if(refresh){
+              print("刷新");
+              //如果是下拉数显
+              _current = start = 0;
+              items.clear();
+              items.addAll(tranList);
+              return tranList.length < 1 ? false : true;
+            }else {
+              _current += 1;
+              print("加载更多");
+              items.addAll(tranList);
+              return tranList.length < 1 ? false : true;;
+            }
+
+
+          }else {
+            showToast(rechargeRecordModel.rSPMSG);
+          }
+
+        },
+        loadingBuilder: (context) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                AnimatedRotationBox(
+                  duration: Duration(milliseconds: 800),
+                  child: GradientCircularProgressIndicator(
+                    radius: 10.0,
+                    colors: [Colors.blue, Colors.lightBlue[50]],
+                    value: .8,
+                    backgroundColor: Colors.transparent,
+                    strokeCapRound: true,
+                  ),
+                ),
+                Text("  加载更多...")
+              ],
+            ),
+          );
+        },
+        noMoreViewBuilder: (list, context) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "共${list.length}条",
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+          );
+        },
+      ),
+
     );
+  }
+
+  void goDetailPage(String proNo) async {
+    showLoading();
+    var result = await RechargeRecordDao.orderDetail(proNo);
+    dismissLoading();
+    Map rechargeDetailMap = json.decode(result);
+    var detailModel = new OrderDetailModel.fromJson(rechargeDetailMap);
+    if(detailModel.rSPCOD == '00000'){
+
+      WdNavigator.getInstance().onJumpTo(RouteStatus.rechargeDetail,args: {"detailModel": detailModel});
+
+    }else {
+      showToast(detailModel.rSPMSG);
+    }
   }
 
 }
