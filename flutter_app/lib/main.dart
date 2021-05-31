@@ -195,15 +195,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
   }
 
 
-//  bool get hasLogin => (LoginDao.getToken() !=  null || LoginDao.getToken() !=  "" );
-  bool get hasLogin {
-    print("token +" + LoginDao.getToken());
-    if (LoginDao.getToken() !=  null && LoginDao.getToken() !=  "" ){
-      return true;
-    }
-    return false;
-  }
-
+  bool get hasLogin => LoginDao.getToken() !=  null;
+//
   @override
   Future<void> setNewRoutePath(AppRoutePath path) async {}
 

@@ -55,8 +55,8 @@ class _HomePageState extends WdState<HomePage> {
               print("点击位置 $drawerIndexdata ");
               //退出登录
               if(drawerIndexdata == DrawerIndex.SignOut){
-                WdCache.getInstance().setString(CommonUtil.TOKEN, "");
-                WdCache.getInstance().setString(CommonUtil.KEY, "");
+                WdCache.getInstance().setString(CommonUtil.TOKEN, null);
+                WdCache.getInstance().setString(CommonUtil.KEY, null);
                 WdNavigator.getInstance().onJumpTo(RouteStatus.login);
               }//About
               else if(drawerIndexdata == DrawerIndex.About){

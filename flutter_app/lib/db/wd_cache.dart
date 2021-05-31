@@ -19,6 +19,7 @@ class WdCache {
     if (_instance == null) {
       var prefs = await SharedPreferences.getInstance();
       _instance = WdCache._pre(prefs);
+      //getInstance().setString(, value)
     }
     return _instance;
   }
@@ -57,6 +58,6 @@ class WdCache {
   }
 
   T get<T>(String key) {
-    return prefs.get(key);
+    return prefs?.get(key) ?? null;
   }
 }

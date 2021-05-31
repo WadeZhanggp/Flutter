@@ -35,7 +35,7 @@ class ThemeProvider extends ChangeNotifier {
   ///获取主题模式
   ThemeMode getThemeMode() {
 
-    String theme = WdCache.getInstance().get(WdConstants.theme);
+    String theme = WdCache.getInstance().get(WdConstants.theme) ;
     switch (theme) {
       case 'Dark':
         _themeMode = ThemeMode.dark;
