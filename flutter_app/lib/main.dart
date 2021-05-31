@@ -18,6 +18,7 @@ import 'package:flutterapp/provider/wd_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/toast.dart';
 import 'package:flutterapp/util/wd_constants.dart';
+import 'package:flutterapp/util/wd_telandsms.dart';
 import 'package:provider/provider.dart';
 
 import 'http/dao/login_dao.dart';
@@ -25,6 +26,8 @@ import 'model/query_meter_model.dart';
 import 'navigator/wd_navigator.dart';
 
 void main() {
+  // 注册封装的服务
+  //GetItClass().setupLocator();
   runApp(MyApp());
 }
 
@@ -117,6 +120,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
     var page;
 
 
+    //print("token" + LoginDao.getToken() );
 
     if (routeStatus == RouteStatus.home) {
       //跳转首页时将栈中其它页面进行出栈，因为首页不可回退
@@ -186,6 +190,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
 
   RouteStatus get routeStatus {
 
+    //print("token" + LoginDao.getToken() );
     if (_routeStatus != RouteStatus.forget && _routeStatus != RouteStatus.register && !hasLogin) {
       return _routeStatus = RouteStatus.login;
     }

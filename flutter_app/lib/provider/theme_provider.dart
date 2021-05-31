@@ -43,8 +43,11 @@ class ThemeProvider extends ChangeNotifier {
       case 'System':
         _themeMode = ThemeMode.system;
         break;
-      default:
+      case 'Light':
         _themeMode = ThemeMode.light;
+        break;
+      default:
+        _themeMode = ThemeMode.dark;
         break;
     }
     return _themeMode;

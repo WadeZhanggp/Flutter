@@ -38,7 +38,29 @@ class _AboutPageState extends WdState<AboutPage> {
             Navigator.of(context).pop();
           }
       ),
-      body: Text("About"),
+      body: Container(
+        margin: const EdgeInsets.only(top: 150),
+        alignment: Alignment.center,
+        child: Column(
+          children: [
+            Image(
+              image: AssetImage("images/img_opay_title.png"),
+              width: 80,
+              height: 162,
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              child: Text(
+                "V1.0",
+                style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 

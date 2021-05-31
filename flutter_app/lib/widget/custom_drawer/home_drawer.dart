@@ -28,12 +28,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
         labelName: '首页',
         icon: Icon(Icons.home),
       ),
-      DrawerList(
-        index: DrawerIndex.Help,
-        labelName: '联系我们',
-        isAssetsImage: true,
-        imageName: 'images/img_supportIcon.png',
-      ),
+//      DrawerList(
+//        index: DrawerIndex.Help,
+//        labelName: '联系我们',
+//        isAssetsImage: true,
+//        imageName: 'images/img_supportIcon.png',
+//      ),
       DrawerList(
         index: DrawerIndex.DarkMode,
         labelName: '暗黑模式',
