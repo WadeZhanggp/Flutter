@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/util/color.dart';
+import 'package:flutterapp/widget/wd_appbar.dart';
 import 'package:provider/provider.dart';
 
 ///夜间模式页面
@@ -31,7 +32,27 @@ class _DarkModePageState extends State<DarkModePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('夜间模式')),
+      appBar: WdAppBar(
+          barHeight: 88,
+          backgroundColor: ThemeColors.colorTheme,
+          leadingWidget:  Container(
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          centerWidget: Text(
+            "暗黑模式",
+            style: TextStyle(color: Colors.white, fontSize: 18.0),
+          ),
+          onPressedLeft: () async {
+            print('点击左');
+            Navigator.of(context).pop();
+          }
+      ),
       body: ListView.separated(
           itemBuilder: (BuildContext context, int index) {
             return _item(index);

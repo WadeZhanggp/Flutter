@@ -35,9 +35,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
         imageName: 'images/img_supportIcon.png',
       ),
       DrawerList(
-        index: DrawerIndex.Share,
-        labelName: '分享APP',
-        icon: Icon(Icons.share),
+        index: DrawerIndex.DarkMode,
+        labelName: '暗黑模式',
+        icon: Icon(Icons.wb_sunny_rounded),
       ),
       DrawerList(
         index: DrawerIndex.About,
@@ -95,7 +95,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Chris Hemsworth',
+                      '',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: Colors.grey,
@@ -260,7 +260,8 @@ enum DrawerIndex {
   About,
   Invite,
   Testing,
-  SignOut
+  SignOut,
+  DarkMode
 }
 
 class DrawerList {

@@ -4,6 +4,7 @@ import 'package:flutterapp/db/wd_cache.dart';
 import 'package:flutterapp/model/order_detail_model.dart';
 import 'package:flutterapp/page/about_page.dart';
 import 'package:flutterapp/page/bill_details_page.dart';
+import 'package:flutterapp/page/dark_mode_page.dart';
 import 'package:flutterapp/page/forget_passwd.dart';
 import 'package:flutterapp/page/home_page.dart';
 import 'package:flutterapp/page/login_page.dart';
@@ -43,7 +44,6 @@ class _MyAppState extends State<MyApp> {
         future: WdCache.preInit(),
         builder: (BuildContext context, AsyncSnapshot<WdCache> snapshot){
 
-          WdCache.getInstance().setString(WdConstants.theme, "Dark");
 
           var widget = snapshot.connectionState == ConnectionState.done
               ? Router(routerDelegate: _routeDelegate)
@@ -143,6 +143,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
       page = pageWrap(SupplierPage());
     }else if (routeStatus == RouteStatus.billDetail) {
       page = pageWrap(BillDetailsPage(queryMeter));
+    }else if (routeStatus == RouteStatus.darkMode) {
+      page = pageWrap(DarkModePage());
     }
 
 
