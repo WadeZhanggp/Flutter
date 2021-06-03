@@ -7,6 +7,12 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
     }
+
+    //Android Studio开发中的构建异常和解决办法
+    configurations {
+        cleanedAnnotations
+        compile.exclude group: 'org.jetbrains' , module:'annotations'
+    }
 }
 
 allprojects {

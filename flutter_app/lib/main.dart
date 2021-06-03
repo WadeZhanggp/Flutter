@@ -15,10 +15,6 @@ import 'package:flutterapp/page/supplier_page.dart';
 import 'package:flutterapp/provider/supplier_provider.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/provider/wd_provider.dart';
-import 'package:flutterapp/util/color.dart';
-import 'package:flutterapp/util/toast.dart';
-import 'package:flutterapp/util/wd_constants.dart';
-import 'package:flutterapp/util/wd_telandsms.dart';
 import 'package:provider/provider.dart';
 
 import 'http/dao/login_dao.dart';
@@ -26,8 +22,7 @@ import 'model/query_meter_model.dart';
 import 'navigator/wd_navigator.dart';
 
 void main() {
-  // 注册封装的服务
-  //GetItClass().setupLocator();
+
   runApp(MyApp());
 }
 

@@ -27,7 +27,8 @@ dependencies:
     path: ./component/hi_net
   flukit:
     path: ./component/package_src
-
+  flutter_telephone_sms:
+    path: ./plugin/flutter_telephone_sms
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -51,9 +52,6 @@ dependencies:
   tobias: ^2.1.0
   build_runner: ^1.4.0
   build_web_compilers: ^2.0.0
-  #调用系统的打电话、发短信、发邮件功能
-  url_launcher: ^5.5.0
-  get_it: ^4.0.4
 
 dev_dependencies:
   flutter_test:

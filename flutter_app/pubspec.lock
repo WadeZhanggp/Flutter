@@ -335,6 +335,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.1.6"
+  flutter_telephone_sms:
+    dependency: "direct main"
+    description:
+      path: "plugin/flutter_telephone_sms"
+      relative: true
+    source: path
+    version: "0.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -352,13 +359,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "8.0.3"
-  get_it:
-    dependency: "direct main"
-    description:
-      name: get_it
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "4.0.4"
   glob:
     dependency: transitive
     description:
@@ -798,48 +798,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.2"
-  url_launcher:
-    dependency: "direct main"
-    description:
-      name: url_launcher
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "5.7.10"
-  url_launcher_linux:
-    dependency: transitive
-    description:
-      name: url_launcher_linux
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.1+4"
-  url_launcher_macos:
-    dependency: transitive
-    description:
-      name: url_launcher_macos
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.1+9"
-  url_launcher_platform_interface:
-    dependency: transitive
-    description:
-      name: url_launcher_platform_interface
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.0.9"
-  url_launcher_web:
-    dependency: transitive
-    description:
-      name: url_launcher_web
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.1.5+3"
-  url_launcher_windows:
-    dependency: transitive
-    description:
-      name: url_launcher_windows
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.1+3"
   uuid:
     dependency: transitive
     description:

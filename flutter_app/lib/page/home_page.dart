@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_telephone_sms/flutter_telephone_sms.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/db/wd_cache.dart';
 import 'package:flutterapp/http/dao/home_dao.dart';
@@ -14,7 +15,6 @@ import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/common_util.dart';
 import 'package:flutterapp/util/toast.dart';
-import 'package:flutterapp/util/wd_telandsms.dart';
 import 'package:flutterapp/widget/custom_drawer/drawer_user_controller.dart';
 import 'package:flutterapp/widget/custom_drawer/home_drawer.dart';
 import 'package:provider/provider.dart';
@@ -68,7 +68,7 @@ class _HomePageState extends WdState<HomePage> {
                 WdNavigator.getInstance().onJumpTo(RouteStatus.darkMode);
               }
               else if(drawerIndexdata == DrawerIndex.Help){
-                //_service.call("18258200977");
+                FlutterTelephoneSms.callPhone("18258200977");
               }
 
             },
