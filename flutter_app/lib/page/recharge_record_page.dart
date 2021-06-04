@@ -69,25 +69,31 @@ class _RechargeRecordPageState extends WdState<RechargeRecordPage> {
           Map rechargeRecordMap = json.decode(result);
           var rechargeRecordModel = new RechargeRecordModel.fromJson(rechargeRecordMap);
           if(rechargeRecordModel.rSPCOD == '00000'){
-            var list = rechargeRecordMap['DATA']["TRAN_RECORD"] as List;
+            List list = rechargeRecordMap['DATA']["TRAN_RECORD"] as List;
+
+            if (list == null || list.length == 0) {
+              return false;
+            }
             List<TRANRECORD> tranList = list.map((i) => TRANRECORD.fromJson(i)).toList();
             if(refresh){
+
               print("刷新");
               //如果是下拉数显
               _current = start = 0;
               items.clear();
               items.addAll(tranList);
-              return tranList.length < 1 ? false : true;
+              return tranList.length < 10 ? false : true;
             }else {
               _current += 1;
               print("加载更多");
               items.addAll(tranList);
-              return tranList.length < 1 ? false : true;;
+              return tranList.length < 10 ? false : true;;
             }
 
 
           }else {
             showToast(rechargeRecordModel.rSPMSG);
+            return false;
           }
 
         },
