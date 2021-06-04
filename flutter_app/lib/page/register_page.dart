@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutterapp/core/wd_state.dart';
 import 'package:flutterapp/http/dao/register_dao.dart';
 import 'package:flutterapp/model/code_model.dart';
+import 'package:flutterapp/navigator/wd_navigator.dart';
+import 'package:flutterapp/page/web_view.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/util/color.dart';
 import 'package:flutterapp/util/toast.dart';
@@ -137,6 +139,35 @@ class _RegisterPageState extends WdState<RegisterPage> {
               onChanged: (text) {
                 password = text;
               },
+            ),
+
+            Container(
+              margin: EdgeInsets.only(top: 20),
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  Expanded(
+                    child:  Container(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                          "注册即同意",
+                          style: TextStyle(
+                            color: Colors.grey,
+                          )
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton(onPressed: () async {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext ctx) => WebViewPage("http://www.hexpay.cn:8180/haixingdianli_zh/agreement.html",title: "注册协议",)));
+                        //WdNavigator.getInstance().onJumpTo(RouteStatus.webView,args: {"webUrl":"http://www.hexpay.cn:8180/haixingdianli_zh/agreement.html" });
+                      }, child: Text("《注册协议》")),
+                    )
+                  )
+                ],
+              ),
             ),
 
             CommonBigButton(

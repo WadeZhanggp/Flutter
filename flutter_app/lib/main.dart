@@ -12,6 +12,7 @@ import 'package:flutterapp/page/recharge_detail_page.dart';
 import 'package:flutterapp/page/recharge_record_page.dart';
 import 'package:flutterapp/page/register_page.dart';
 import 'package:flutterapp/page/supplier_page.dart';
+import 'package:flutterapp/page/web_view.dart';
 import 'package:flutterapp/provider/supplier_provider.dart';
 import 'package:flutterapp/provider/theme_provider.dart';
 import 'package:flutterapp/provider/wd_provider.dart';
@@ -85,6 +86,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
             this.queryMeter = args['queryMeterModel'];
           }else if (routeStatus == RouteStatus.rechargeDetail) {
             this.orderDetailModel = args['detailModel'];
+          }else if (routeStatus == RouteStatus.webView) {
+            this.webUrl = args['webUrl'];
           }
 
           notifyListeners();
@@ -102,6 +105,7 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
   List<MaterialPage> pages = [];
   QueryMeterModel queryMeter;
   OrderDetailModel orderDetailModel;
+  String webUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -144,6 +148,8 @@ class AppRouteDelegate extends RouterDelegate<AppRoutePath>
       page = pageWrap(BillDetailsPage(queryMeter));
     }else if (routeStatus == RouteStatus.darkMode) {
       page = pageWrap(DarkModePage());
+    }else if (routeStatus == RouteStatus.webView) {
+      page = pageWrap(WebViewPage(webUrl));
     }
 
 

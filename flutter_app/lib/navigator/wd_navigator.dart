@@ -9,6 +9,7 @@ import 'package:flutterapp/page/recharge_detail_page.dart';
 import 'package:flutterapp/page/recharge_record_page.dart';
 import 'package:flutterapp/page/register_page.dart';
 import 'package:flutterapp/page/supplier_page.dart';
+import 'package:flutterapp/page/web_view.dart';
 
 typedef RouteChangeListener(RouteStatusInfo current, RouteStatusInfo pre);
 
@@ -28,7 +29,7 @@ int getPageIndex(List<MaterialPage> pages, RouteStatus routeStatus) {
 }
 
 ///自定义路由封装，路由状态
-enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,about,supplier,billDetail,darkMode,unknown }
+enum RouteStatus { login, register, home, forget ,rechargeDetail, my, rechargeRecord,about,supplier,billDetail,darkMode,webView,unknown }
 
 ///获取page对应的RouteStatus
 RouteStatus getStatus(MaterialPage page) {
@@ -52,6 +53,8 @@ RouteStatus getStatus(MaterialPage page) {
     return RouteStatus.billDetail;
   }else if (page.child is DarkModePage) {
     return RouteStatus.darkMode;
+  }else if (page.child is WebViewPage) {
+    return RouteStatus.webView;
   }
 }
 
