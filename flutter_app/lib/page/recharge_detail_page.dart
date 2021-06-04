@@ -30,26 +30,20 @@ class _RechargeDetailPageState extends WdState<RechargeDetailPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        appBar: WdAppBar(
-            barHeight: 88,
-            backgroundColor: ThemeColors.colorTheme,
-            leadingWidget:  Container(
-              child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                ),
-                onPressed: () => Navigator.pop(context),
-              ),
+        appBar: AppBar(
+          backgroundColor: ThemeColors.colorTheme,
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back,color: Colors.white),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+          title: Text(
+            "订单详情",
+            style: TextStyle(
+                fontSize: 20,
+                color: Colors.white
             ),
-            centerWidget: Text(
-              "订单详情",
-              style: TextStyle(color: Colors.white, fontSize: 18.0),
-            ),
-            onPressedLeft: () async {
-              print('点击左');
-              Navigator.of(context).pop();
-            }
+          ),
+          centerTitle: true,
         ),
         body: SingleChildScrollView(
           child: Column(

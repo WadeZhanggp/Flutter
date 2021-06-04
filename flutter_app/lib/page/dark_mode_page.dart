@@ -32,26 +32,20 @@ class _DarkModePageState extends State<DarkModePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: WdAppBar(
-          barHeight: 88,
-          backgroundColor: ThemeColors.colorTheme,
-          leadingWidget:  Container(
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
+      appBar: AppBar(
+        backgroundColor: ThemeColors.colorTheme,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back,color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          "暗黑模式",
+          style: TextStyle(
+              fontSize: 20,
+              color: Colors.white
           ),
-          centerWidget: Text(
-            "暗黑模式",
-            style: TextStyle(color: Colors.white, fontSize: 18.0),
-          ),
-          onPressedLeft: () async {
-            print('点击左');
-            Navigator.of(context).pop();
-          }
+        ),
+        centerTitle: true,
       ),
       body: ListView.separated(
           itemBuilder: (BuildContext context, int index) {

@@ -144,7 +144,7 @@ class _DrawerUserControllerState extends State<DrawerUserController> with Ticker
                         ),
                       // this just menu and arrow icon animation
                       Padding(
-                        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top - 11, left: 19),
+                        padding: EdgeInsets.only(top: 36, left: 19),
                         child: SizedBox(
                           width: AppBar().preferredSize.height - 8,
                           height: AppBar().preferredSize.height - 8,

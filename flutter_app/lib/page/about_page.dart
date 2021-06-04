@@ -17,26 +17,20 @@ class _AboutPageState extends WdState<AboutPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: WdAppBar(
-          barHeight: 88,
-          backgroundColor: ThemeColors.colorTheme,
-          leadingWidget:  Container(
-            child: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.white,
-              ),
-              onPressed: () => Navigator.pop(context),
-            ),
-          ),
-          centerWidget: Text(
+      appBar: AppBar(
+        backgroundColor: ThemeColors.colorTheme,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back,color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
             "关于",
-            style: TextStyle(color: Colors.white, fontSize: 18.0),
-          ),
-          onPressedLeft: () async {
-            print('点击左');
-            Navigator.of(context).pop();
-          }
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white
+        ),
+        ),
+        centerTitle: true,
       ),
       body: Container(
         margin: const EdgeInsets.only(top: 150),
