@@ -17,6 +17,7 @@ import 'package:flutterapp/util/common_util.dart';
 import 'package:flutterapp/util/toast.dart';
 import 'package:flutterapp/widget/custom_drawer/drawer_user_controller.dart';
 import 'package:flutterapp/widget/custom_drawer/home_drawer.dart';
+import 'package:flutterapp/widget/home_swiper.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget{
@@ -94,7 +95,7 @@ class _HomePageState extends WdState<HomePage> {
                                 child: Container(
                                   //设置背景图片
                                   constraints: BoxConstraints.expand(
-                                    height: MediaQuery.of(context).size.width/750*590,
+                                    height: MediaQuery.of(context).size.width/750*661,
                                     width: MediaQuery.of(context).size.width,
                                   ),
                                   decoration: BoxDecoration(
@@ -107,148 +108,122 @@ class _HomePageState extends WdState<HomePage> {
                                 ),
                               ),
                               Positioned(
-                                  top: 150,
+                                  top: 120,
                                   child: Container(
-
-                                    constraints: BoxConstraints.expand(
-                                        width: 120,
-                                        height: 120
-                                    ),
-                                    decoration: BoxDecoration(
-                                        border: Border.all(color: ThemeColors.colorSelectBlue, width: 2),
-                                        borderRadius: BorderRadius.circular((5.0)),
-                                        color: Colors.white
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          child: Image(
-                                            image: AssetImage("images/img_home_electric.png"),
-                                            width: 30,
-                                            height: 50,
-                                          ),
-                                          padding: EdgeInsets.only(top: 15),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            "电费",
-                                            style: TextStyle(
-                                              color: ThemeColors.colorSelectBlue,
-                                              fontSize: 18,
-                                            ),
-                                          ),
-                                          margin: EdgeInsets.only(top: 10),
-                                        )
-                                      ],
-                                    ),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 152,
+                                    child: HomeSwiper(),
                                   )
                               ),
                             ],
                           ),
                         ),
-                        Column(
-                          children: [
-                            Container(
-                              child: Text(
-                                "付款到",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 0),
-                              constraints: BoxConstraints.expand(
-                                  width: 200,
-                                  height: 45
-                              ),
-                              decoration: BoxDecoration(
-                                  border: Border(
-                                    // 四个值 top right bottom left
-                                      bottom: BorderSide(
-                                        // 设置单侧边框的样式
-                                          color: Colors.grey,
-                                          width: 1,
-                                          style: BorderStyle.solid))
-                              ),
-                              child: TextButton(
-                                  onPressed:() async {
-                                    WdNavigator.getInstance().onJumpTo(RouteStatus.supplier);
-                                  },
-                                  child: Consumer<SupplierProvider>(builder: (BuildContext context, SupplierProvider supplierProvider, Widget child){
-                                    return Text(
-                                      supplierProvider.ELEN_NAME == null ? "请选中付款单位" : supplierProvider.ELEN_NAME ,
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 16.0,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    );
-                                  }
-
-                                    //padding: const EdgeInsets.only( top: 40),
-
-                                  )),
-                            ), Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: Text(
-                                "表号",
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 18
-                                ),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10),
-                              width: 200,
-                              height: 44,
-                              child: TextField(
-
-                                autofocus: true,
-                                //textAlign: Center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: "请输入表号",
-                                  hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey),//设置提示文字样式
-
-                                ),
-                                onChanged: (text){
-                                  meterNo = text;
-                                },
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 40),
-                              width: 200,
-                              height: 44,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                image: DecorationImage(
-                                    image: AssetImage("images/img_button_bg.png"),
-                                    fit: BoxFit.fill
-                                ),
-                              ),
-                              alignment: Alignment.center,
-                              child: FlatButton(
-                                onPressed:() async {
-                                  queryMeter();
-                                },
+                        Container(
+                          margin: const EdgeInsets.only(top: 50),
+                          child: Column(
+                            children: [
+                              Container(
                                 child: Text(
-                                  "下一步",
+                                  "付款到",
                                   style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18.0,
+                                      color: Colors.grey,
+                                      fontSize: 18
                                   ),
                                 ),
-                                color: Colors.transparent,
                               ),
-                            ),
-                          ],
+                              Container(
+                                margin: const EdgeInsets.only(left: 0),
+                                constraints: BoxConstraints.expand(
+                                    width: 200,
+                                    height: 45
+                                ),
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                      // 四个值 top right bottom left
+                                        bottom: BorderSide(
+                                          // 设置单侧边框的样式
+                                            color: Colors.grey,
+                                            width: 1,
+                                            style: BorderStyle.solid))
+                                ),
+                                child: TextButton(
+                                    onPressed:() async {
+                                      WdNavigator.getInstance().onJumpTo(RouteStatus.supplier);
+                                    },
+                                    child: Consumer<SupplierProvider>(builder: (BuildContext context, SupplierProvider supplierProvider, Widget child){
+                                      return Text(
+                                        supplierProvider.ELEN_NAME == null ? "请选中付款单位" : supplierProvider.ELEN_NAME ,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 16.0,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      );
+                                    }
+
+                                      //padding: const EdgeInsets.only( top: 40),
+
+                                    )),
+                              ), Container(
+                                margin: EdgeInsets.only(top: 10),
+                                child: Text(
+                                  "表号",
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                width: 200,
+                                height: 44,
+                                child: TextField(
+
+                                  autofocus: true,
+                                  //textAlign: Center,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                  decoration: InputDecoration(
+                                    hintText: "请输入表号",
+                                    hintStyle: TextStyle(fontSize: 16.0, color: Colors.grey),//设置提示文字样式
+
+                                  ),
+                                  onChanged: (text){
+                                    meterNo = text;
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 40),
+                                width: 200,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  image: DecorationImage(
+                                      image: AssetImage("images/img_button_bg.png"),
+                                      fit: BoxFit.fill
+                                  ),
+                                ),
+                                alignment: Alignment.center,
+                                child: FlatButton(
+                                  onPressed:() async {
+                                    queryMeter();
+                                  },
+                                  child: Text(
+                                    "下一步",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  color: Colors.transparent,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
