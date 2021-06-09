@@ -1,8 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutterapp">
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="flutterapp"
+        android:label="Opay Lite"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
