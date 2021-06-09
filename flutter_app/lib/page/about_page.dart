@@ -75,7 +75,7 @@ class _AboutPageState extends WdState<AboutPage> {
             Container(
               margin: const EdgeInsets.only(top: 20),
               child: Text(
-                "V 1.1",
+                "V 1.2",
                 style: TextStyle(
                     fontSize: 20,
                     color: Colors.grey

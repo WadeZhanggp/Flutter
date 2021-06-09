@@ -34,6 +34,7 @@ class _HomePageState extends WdState<HomePage> {
   ThemeProvider _themeProvider;
   SupplierProvider _supplierProvider;
   String meterNo;
+  int indexValue = 0;
   //final WdTelAndSmsService _service = GetItClass().locator<WdTelAndSmsService>();
 
   @override
@@ -112,7 +113,12 @@ class _HomePageState extends WdState<HomePage> {
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: 152,
-                                    child: HomeSwiper(),
+                                    child: HomeSwiper(
+                                      onIndexChangedValue: (int value) async {
+                                        this.indexValue = value;
+                                        print('切换位置$value');
+                                      },
+                                    ),
                                   )
                               ),
                             ],
@@ -209,7 +215,12 @@ class _HomePageState extends WdState<HomePage> {
                                 ),
                                 alignment: Alignment.center,
                                 child: FlatButton(
+
                                   onPressed:() async {
+                                    if (this.indexValue != 0){
+                                      showToast("暂不支持");
+                                      return;
+                                    }
                                     queryMeter();
                                   },
                                   child: Text(

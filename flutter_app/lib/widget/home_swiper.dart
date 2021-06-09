@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutterapp/util/color.dart';
+import 'package:flutter/foundation.dart';
 
 class HomeSwiper extends StatelessWidget {
 
@@ -18,6 +19,10 @@ class HomeSwiper extends StatelessWidget {
     "燃气",
     "水费",
   ];
+
+  final ValueChanged<int> onIndexChangedValue;
+
+  HomeSwiper({Key key, this.onIndexChangedValue}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +64,11 @@ class HomeSwiper extends StatelessWidget {
       //pagination: SwiperPagination(),
       viewportFraction: 0.5,
       scale: 0.5,
+      onIndexChanged: (int value) async {
+
+        onIndexChangedValue(value);
+      },
+
 
     );
 

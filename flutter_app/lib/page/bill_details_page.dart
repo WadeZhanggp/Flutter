@@ -69,7 +69,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                         ),
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage("images/img_home_nav.png"),
+                              image: AssetImage("images/img_bill_bg.png"),
                               fit:BoxFit.cover,
                             )
                         ),
@@ -242,7 +242,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
                       alignment: Alignment.center,
                       child: FlatButton(
                         onPressed:() async {
-                          createOrderRequest(this.amount);
+                          createOrderRequest(this.amount, context);
                         },
                         child: Text(
                           "立即支付",
@@ -264,7 +264,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
   }
 
   //创建订单
-  void createOrderRequest(String amount) async {
+  void createOrderRequest(String amount ,BuildContext context) async {
 
     showLoading();
     var result = await BillDetailDao.createOrder(widget.queryMeter.ENEL_ID, widget.queryMeter.dATA.mETERNO,amount);
@@ -284,7 +284,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
   _onAlertButtonsPressed(context, String title, String desc ,String proNo) {
     Alert(
       context: context,
-      type: AlertType.none,
+      type: AlertType.info,
       title: title,
       desc: desc,
       buttons: [
@@ -293,9 +293,8 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             "取消",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
-          onPressed: () async{
-            Alert().dismiss();
-          },
+          onPressed: () => Navigator.pop(context),
+
           color: Colors.grey,
         ),
         DialogButton(
@@ -304,10 +303,40 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           onPressed: () async{
-            Alert().dismiss();
+            Navigator.pop(context);
             preAlipayRequest(proNo);
           },
           color: ThemeColors.colorTheme,
+        )
+      ],
+    ).show();
+  }
+
+  _onAlertButtonsTestPressed(context) {
+    Alert(
+      context: context,
+      type: AlertType.warning,
+      title: "RFLUTTER ALERT",
+      desc: "Flutter is more awesome with RFlutter Alert.",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "FLAT",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => Navigator.pop(context),
+          color: Color.fromRGBO(0, 179, 134, 1.0),
+        ),
+        DialogButton(
+          child: Text(
+            "GRADIENT",
+            style: TextStyle(color: Colors.white, fontSize: 18),
+          ),
+          onPressed: () => Navigator.pop(context),
+          gradient: LinearGradient(colors: [
+            Color.fromRGBO(116, 116, 191, 1.0),
+            Color.fromRGBO(52, 138, 199, 1.0),
+          ]),
         )
       ],
     ).show();
