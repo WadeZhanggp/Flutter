@@ -4,6 +4,13 @@ class OrderDetailModel {
   String rSPMSG;
   DATA dATA;
 
+  // 0-未支付；
+  // 01-成功；
+  // 02-支付处理中；
+  // 20-第三方完成；
+  // 22-第三方支付中；
+  // 11-订单已关闭；
+
   OrderDetailModel({this.rSPCOD, this.aUTH, this.rSPMSG, this.dATA});
 
   OrderDetailModel.fromJson(Map<String, dynamic> json) {

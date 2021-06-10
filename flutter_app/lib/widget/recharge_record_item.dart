@@ -57,12 +57,12 @@ class RechargeRecordItem extends StatelessWidget {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 18,
-                              color: Colors.black,
+                              color: Colors.grey,
                             ),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 6),
+                          margin: EdgeInsets.only(top: 14),
                           child: Text(
                             tRANDATE,
                             textAlign: TextAlign.left,
@@ -87,12 +87,12 @@ class RechargeRecordItem extends StatelessWidget {
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 18,
-                            color: Colors.black,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 6),
+                        margin: EdgeInsets.only(top: 14),
                         child: Text(
                           getStatusWithCode(oRDSTATUS),
                           textAlign: TextAlign.right,
@@ -123,8 +123,11 @@ class RechargeRecordItem extends StatelessWidget {
     }else if(code == "02") {
       return "支付中";
     }else if(code == "11") {
-      return "支付失败";
-    }else {
+      return "订单已关闭";
+    }else if(code == "22") {
+      return "支付中";
+    }
+    else {
       return "";
     }
   }

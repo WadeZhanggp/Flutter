@@ -293,7 +293,9 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             "取消",
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop();
+          },
 
           color: Colors.grey,
         ),
@@ -303,7 +305,7 @@ class _BillDetailsPage extends State<BillDetailsPage> {
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
           onPressed: () async{
-            Navigator.pop(context);
+            Navigator.of(context, rootNavigator: true).pop();
             preAlipayRequest(proNo);
           },
           color: ThemeColors.colorTheme,
