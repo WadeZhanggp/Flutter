@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.util.HashMap;
+
 import androidx.annotation.NonNull;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
@@ -46,6 +48,32 @@ public class FlutterTelephoneSmsPlugin implements FlutterPlugin, ActivityAware,M
     } else {
       result.notImplemented();
     }
+
+    int length = maxLength("bbbbbbbb");
+    System.out.println("Hello World! 最大长度"+length);
+  }
+
+  public static int maxLength (String a){
+    if (a.length() == 0){
+      return 0;
+    }
+    HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+    int max = 0;
+    int start = 0;
+    for(int i = 0; i < a.length(); i++){
+      if(map.containsKey(a.charAt(i))){
+        if (start < map.get(a.charAt(i)) + 1){
+          start = map.get(a.charAt(i)) + 1;
+        }
+      }
+      map.put(a.charAt(i),i);
+      if (i - start + 1 > max){
+        max = i - start + 1;
+      }
+    }
+    return max;
+
+
   }
 
   @Override
